@@ -32,7 +32,7 @@
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type t)
+(setq display-line-numbers-type nil)
 
 
 ;; Here are some additional functions/macros that could help you configure Doom:
@@ -56,35 +56,69 @@
 ;;      Personal config
 ;; ==============================
 
+;; Needed for magit forge
+(setq auth-sources '("~/.authinfo"))
+
+(setq line-number-mode 'nil)
+
 ;;      Custom keybinds
 ;; ==============================
 
-(defun config-visit ()
+(defun org-visit ()
   (interactive)
-  (find-file "~/.doom.d/config.org"))
+  (find-file (concat org-directory "/main.org")))
 
-(global-set-key (kbd "C-x x e") 'config-visit)
+(defun kill-current-buffer ()
+  "Kills the current buffer."
+  (interactive)
+  (kill-buffer (current-buffer)))
 
+(global-set-key (kbd "C-c f o") 'org-visit)
+(global-set-key (kbd "C-x k") 'kill-current-buffer)
 (global-set-key (kbd "C-w") 'backward-kill-word)
 (global-set-key (kbd "C-x C-k") 'kill-region)
 (global-set-key (kbd "M-o") 'other-window)
 (global-set-key (kbd "M-;") 'comment-dwim)
-;; (global-set-key "\C-w" 'backward-kill-word)
-;; (global-set-key "\C-x\C-k" 'kill-region)
-;; (global-set-key "\M-o" 'other-window)
-;; (global-set-key "\M-;" 'comment-dwim)
 
+(use-package! avy
+  :config
+  (setq avy-all-windows t)
+  :bind
+  ("C-:" . avy-goto-char))
 
-;;      Spell checking
+;;         Locale
 ;; ==============================
 
-(setq ispell-dictionary "en_GB")
-(add-hook 'text-mode-hook 'turn-on-auto-fill)
-(add-hook 'text-mode-hook 'flyspell-mode)
-(add-hook 'latex-mode-hook 'flyspell-mode)
+(setq system-time-locale "C")
 
-
-
-;;      Git
+;;         org-babel
 ;; ==============================
-(global-set-key (kbd "C-x g") 'magit-status)
+
+(after! ess
+  (setq inferior-julia-program "/usr/local/bin/julia"))
+
+(after! org
+  (setq org-startup-folded t))
+
+;;            tramp
+;; ==============================
+
+(use-package! tramp
+  :config
+  (setq recentf-auto-cleanup 'never)
+  (setq tramp-verbose 3))
+
+
+;;          projectile
+;; ==============================
+;; We disable projectile mode line since
+;; it slows everything down when used together with tramp
+(use-package! projectile
+  :config
+  (setq projectile-mode-line "Projectile"))
+
+
+;; this might fuck stuff up when using external display
+(set-face-attribute 'default nil :height 130)
+
+(setq fancy-splash-image "~/.doom.d/images/lambda.png")

@@ -1,0 +1,144 @@
+#+TITLE: Doom config
+#+AUTHOR: Sebastian Callh
+#+EMAIL: sebastian.callh@gmail.com
+#+PROPERTY: header-args:emacs-lisp :tangle yes
+
+* Personal Doom Configuration
+This config is intended to be used with [[https://github.com/hlissner/doom-emacs][Doom emacs]]. Since it is very batteries-included this config file only contains personal touches.
+Using the [[file:init.el::literate][literate module]] this file is tangled on save and used instead of a ~config.el~ file.
+
+* Personal
+#+begin_src emacs-lisp
+(setq auth-sources '("~/.authinfo"))
+(setq user-full-name "Sebastian Callh"
+      user-mail-address "sebastian.callh@gmail.com")
+
+(setq system-time-locale "C")
+#+end_src
+
+#+end_src
+
+* Custom keybinds
+#+begin_src emacs-lisp
+(defun kill-current-buffer ()
+  (interactive)
+  (kill-buffer (current-buffer)))
+
+(global-set-key (kbd "C-w") 'backward-kill-word)
+(global-set-key (kbd "C-x k") 'kill-current-buffer)
+(global-set-key (kbd "C-x C-k") 'kill-region)
+(global-set-key (kbd "M-o") 'other-window)
+(global-set-key (kbd "M-;") 'comment-dwim)
+#+end_src
+
+* Aesthetics
+** Splash screen
+#+begin_src emacs-lisp
+(setq fancy-splash-image "~/.doom.d/images/lambda.png")
+#+end_src
+
+** Theme
+#+begin_src emacs-lisp
+(setq doom-theme 'doom-zenburn)
+#+end_src
+
+** Font
+#+begin_src emacs-lisp
+(set-face-attribute 'default nil :family "Monospace" :height 110)
+   ;; variable pitch in plain text
+   ;; (custom-theme-set-faces
+   ;;  'user
+   ;;  '(variable-pitch ((t (:family "Monospace" :height 120 :weight light))))
+   ;;  '(fixed-pitch ((t ( :family "Iosevka" :slant normal :weight normal :height 1.0 :width normal)))))
+
+   ;; Fixed pitch in blocks
+   ;; (custom-theme-set-faces
+   ;;  'user
+   ;;  '(org-block                 ((t (:inherit fixed-pitch))))
+   ;;  '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
+   ;;  '(org-property-value        ((t (:inherit fixed-pitch))) t)
+   ;;  '(org-special-keyword       ((t (:inherit (font-lock-comment-face fixed-pitch)))))
+   ;;  '(org-tag                   ((t (:inherit (shadow fixed-pitch) :weight bold))))
+   ;;  '(org-verbatim              ((t (:inherit (shadow fixed-pitch))))))))
+#+end_src
+
+** Modeline
+#+begin_src emacs-lisp
+(use-package! doom-modeline
+  :config (setq doom-modeline-major-mode-icon t))
+#+end_src
+
+* Performance
+#+begin_src emacs-lisp
+(setq inhibit-compacting-font-caches t)
+#+end_src
+
+* Org
+#+begin_src emacs-lisp
+(use-package! org
+  :config
+  (setq org-directory "~/Dropbox/org")
+  (setq org-superstar-item-bullet-alist '(">"))
+
+  ;;'((all-the-icons-wicon "fire" :face 'all-the-icons-blue :height 2)))
+  (setq org-startup-folded t))
+  (setq org-hide-emphasis-markers t)
+
+  ;;(setq org-hide-leading-stars t)
+  (setq org-ellipsis '"⤵")
+  (setq org-pretty-entities t)
+
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (variable-pitch-mode 1)
+              visual-line-mode))
+
+  (custom-set-faces
+   '(org-level-1 ((t (:inherit outline-1 :height 1.2))))
+   '(org-level-2 ((t (:inherit outline-2 :height 1.1))))
+   '(org-level-3 ((t (:inherit outline-3 :height 1.0))))
+   '(org-level-4 ((t (:inherit outline-4 :height 1.0))))
+   '(org-level-5 ((t (:inherit outline-5 :height 1.0)))))
+#+end_src
+
+* Packages
+** Avy
+#+begin_src emacs-lisp
+(after! avy
+  :config (setq avy-all-windows t)
+  :bind ("C-:" . avy-goto-char))
+#+end_src
+
+** Tramp
+#+begin_src emacs-lisp
+(after! tramp
+  :config
+  (setq recentf-auto-cleanup 'never)
+  (setq tramp-verbose 3))
+#+end_src
+
+** Projectile
+Solves the [[https://github.com/bbatsov/projectile/issues/657][issue]] where ~Projectile~ lags over ~Tramp~.
+#+begin_src emacs-lisp
+(use-package! projectile
+  :config
+  (setq projectile-mode-line "Projectile"))
+#+end_src
+
+* Programming
+** Data science
+*** Ess
+Unfortunately [[https://github.com/gjkerns/ob-julia/blob/master/ob-julia-doc.org][needed]] for ~ob-julia~.
+#+begin_src emacs-lisp
+(after! ess
+  (setq inferior-julia-program "/usr/local/bin/julia"))
+#+end_src
+
+*** Julia
+Config can be in the Julia module [[https://github.com/hlissner/doom-emacs/blob/develop/modules/lang/julia/README.org][README]]. ~julia-lsp~ installed in [[file:packages.el::package! lsp-julia :recipe (:host github :repo "non-jedi/lsp-julia")][package.el]].
+#+begin_src emacs-lisp
+(setq lsp-julia-default-environment "~/.julia/environments/v1.5")
+#+end_src
+
+
+

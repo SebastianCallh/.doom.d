@@ -64,7 +64,7 @@
        ;;word-wrap         ; soft wrapping with language-aware indent
 
        :emacs
-       dired             ; making dired pretty [functional]
+       (dired +icons +diff-hl)             ; making dired pretty [functional]
        electric          ; smarter, keyword-based electric-indent
        ;;ibuf fer         ; interactive buffer management
        undo              ; persistent, smarter undo for your inevitable mistakes

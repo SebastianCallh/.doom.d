@@ -43,23 +43,8 @@ Using the [[file:init.el::literate][literate module]] this file is tangled on sa
 #+end_src
 
 ** Font
-#+begin_src emacs-lisp
-(set-face-attribute 'default nil :family "Monospace" :height 110)
-   ;; variable pitch in plain text
-   ;; (custom-theme-set-faces
-   ;;  'user
-   ;;  '(variable-pitch ((t (:family "Monospace" :height 120 :weight light))))
-   ;;  '(fixed-pitch ((t ( :family "Iosevka" :slant normal :weight normal :height 1.0 :width normal)))))
-
-   ;; Fixed pitch in blocks
-   ;; (custom-theme-set-faces
-   ;;  'user
-   ;;  '(org-block                 ((t (:inherit fixed-pitch))))
-   ;;  '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
-   ;;  '(org-property-value        ((t (:inherit fixed-pitch))) t)
-   ;;  '(org-special-keyword       ((t (:inherit (font-lock-comment-face fixed-pitch)))))
-   ;;  '(org-tag                   ((t (:inherit (shadow fixed-pitch) :weight bold))))
-   ;;  '(org-verbatim              ((t (:inherit (shadow fixed-pitch))))))))
+#+begin_src elisp
+(setq doom-font (font-spec :family "Iosevka" :size 18))
 #+end_src
 
 ** Modeline

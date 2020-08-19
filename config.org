@@ -63,9 +63,8 @@ Using the [[file:init.el::literate][literate module]] this file is tangled on sa
 * Org
 #+begin_src elisp
 (use-package! org
+  :init (setq org-directory "~/Dropbox/org")
   :config
-  (setq org-directory "~/Dropbox/org")
-
   ;;'((all-the-icons-wicon "fire" :face 'all-the-icons-blue :height 2)))
   (setq org-startup-folded t))
   (setq org-hide-emphasis-markers t)

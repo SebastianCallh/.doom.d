@@ -77,6 +77,8 @@ Using the [[file:init.el::literate][literate module]] this file is tangled on sa
             (lambda ()
               (variable-pitch-mode 1)
               visual-line-mode))
+  (setq org-ellipsis '"...")
+  (setq org-superstar-headline-bullets-list '("❍"))
 
   (custom-set-faces
    '(org-level-1 ((t (:inherit outline-1 :height 1.2))))

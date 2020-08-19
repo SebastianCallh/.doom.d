@@ -12,7 +12,11 @@ Using the [[file:init.el::literate][literate module]] this file is tangled on sa
 (setq auth-sources '("~/.authinfo"))
 (setq user-full-name "Sebastian Callh"
       user-mail-address "sebastian.callh@gmail.com")
-
+#+end_src
+* Localisation
+#+begin_src elisp
+(use-package! flyspell
+  :init (setq ispell-dictionary "en_GB"))
 (setq system-time-locale "C")
 #+end_src
 

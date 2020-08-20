@@ -45,8 +45,16 @@ Using the [[file:init.el::literate][literate module]] this file is tangled on sa
 #+end_src
 
 ** Font
+Use ~mixed-pitch~ to have separate fonts in code blocks and in prose. The Vollkorn typeface is available at [[http://vollkorn-typeface.com/][their website]].
 #+begin_src elisp
-(setq doom-font (font-spec :family "Iosevka" :size 18))
+(use-package! mixed-pitch
+  :hook
+  (text-mode . mixed-pitch-mode))
+
+(setq doom-font (font-spec :family "Iosevka" :size 22)
+      doom-variable-pitch-font (font-spec :family "Vollkorn")
+      doom-unicode-font (font-spec :family "Iosevka")
+      doom-big-font (font-spec :family "Iosevka" :size 28))
 #+end_src
 
 ** Modeline

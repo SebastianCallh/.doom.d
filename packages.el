@@ -53,5 +53,6 @@
 (package! lsp-julia :recipe (:host github :repo "non-jedi/lsp-julia"))
 (package! mixed-pitch)
 
-;: Seems to cause quite a bit of lag. Sorry sunbros.
+;: Pemoved for performance reason
 (package! solaire-mode :disable t)
+(package! hl-line :disable t)

@@ -121,6 +121,14 @@ Solves the [[https://github.com/bbatsov/projectile/issues/657][issue]] where ~Pr
   (setq projectile-mode-line "Projectile"))
 #+end_src
 
+**  Company-posframe
+[[*Font][Mixed pitch]] allows different fonts in org mode for prose and code, however, this doesn't interact super great with company. [[https://github.com/tumashu/company-posframe/][Company-posframe]] solves this. [[https://github.com/sebastiencs/company-box][Company-box]] looks quite a bit nicer with icons and docstring-popup, but it crashes when used in ~emacs-jupyter~, which is super sad. Added in [[file:packages.el::package! company-posframe][package.el]].
+
+#+begin_src elisp
+(use-package! company-posframe
+  :hook (company-mode . company-posframe-mode))
+#+end_src
+
 * Programming
 ** Data science
 *** Ess

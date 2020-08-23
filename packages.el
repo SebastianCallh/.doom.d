@@ -49,9 +49,12 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
 
-;; Added packages
+;; ##############
+;; # Added packages
+;; ##############
 (package! lsp-julia :recipe (:host github :repo "non-jedi/lsp-julia"))
 (package! mixed-pitch)
+(package! company-posframe)
 
 ;: Pemoved for performance reason
 (package! solaire-mode :disable t)

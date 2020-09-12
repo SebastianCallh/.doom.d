@@ -116,6 +116,11 @@ Solves the [[https://github.com/bbatsov/projectile/issues/657][issue]] where ~Pr
 (use-package! company-posframe
   :hook (company-mode . company-posframe-mode))
 #+end_src
+**  Undo-fu
+I think there might be an issue with ~undo-fu-session~ since it sometimes outputs =Undo-Fu-Session discarding undo data: file length mismatch=. I am not sure if this affects performance but I don't really care if undo is bounded by a session, so it is disabled here.
+#+begin_src elisp
+(remove-hook 'undo-fu-mode-hook #'global-undo-fu-session-mode)
+#+end_src
 
 * Programming
 ** Data science

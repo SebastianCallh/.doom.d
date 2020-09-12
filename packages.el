@@ -54,6 +54,7 @@
 (package! lsp-julia :recipe (:host github :repo "non-jedi/lsp-julia"))
 (package! mixed-pitch)
 (package! company-posframe)
+(package! restclient)
 
 ;: Pemoved for performance reason
 (package! solaire-mode :disable t)

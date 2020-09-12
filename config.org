@@ -59,11 +59,6 @@ Use ~mixed-pitch~ to have separate fonts in code blocks and in prose. The Vollko
       doom-big-font (font-spec :family "Fira Code" :size 28))
 #+end_src
 
-** Modeline
-#+begin_src elisp
-(use-package! doom-modeline
-  :config (setq doom-modeline-major-mode-icon t))
-#+end_src
 
 * Performance
   Also disable some packages in [[file:packages.el::;: Pemoved for performance reason][packages.el]].

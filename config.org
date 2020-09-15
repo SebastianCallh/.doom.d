@@ -1,4 +1,4 @@
-#+TITLE: Doom config
+#+TITLE: Doom configuration
 #+AUTHOR: Sebastian Callh
 #+EMAIL: sebastian.callh@gmail.com
 #+PROPERTY: header-args:elisp :tangle yes :exports code
@@ -21,7 +21,7 @@ Using the [[file:init.el::literate][literate module]] this file is tangled on sa
 (setq system-time-locale "C")
 #+end_src
 
-* Custom keybinds
+* Custom keybindings
 #+begin_src elisp
 (defun kill-current-buffer ()
   (interactive)
@@ -59,7 +59,6 @@ Use ~mixed-pitch~ to have separate fonts in code blocks and in prose. The Vollko
       doom-big-font (font-spec :family "Fira Code" :size 28))
 #+end_src
 
-
 * Performance
   Also disable some packages in [[file:packages.el::;: Pemoved for performance reason][packages.el]].
 #+begin_src elisp
@@ -77,11 +76,41 @@ Use ~mixed-pitch~ to have separate fonts in code blocks and in prose. The Vollko
   (setq org-superstar-headline-bullets-list '("❍"))
 
   (custom-set-faces
+
    '(org-level-1 ((t (:inherit outline-1 :height 1.2))))
    '(org-level-2 ((t (:inherit outline-2 :height 1.15))))
    '(org-level-3 ((t (:inherit outline-3 :height 1.1))))
    '(org-level-4 ((t (:inherit outline-4 :height 1.0))))
-   '(org-level-5 ((t (:inherit outline-5 :height 1.0))))))
+   '(org-level-5 ((t (:inherit outline-5 :height 1.0)))))
+  
+  (cl-defmethod jupyter-org--insert-result (_req context result)
+    (let ((str
+           (org-element-interpret-data
+            (jupyter-org--wrap-result-maybe
+             context (if (jupyter-org--stream-result-p result)
+                         (thread-last result
+                           jupyter-org-strip-last-newline
+                           jupyter-org-scalar)
+                       result)))))
+      (if (< (length str) 10000)
+          (insert str)
+        (insert (format ": Output truncated, original length was %d" (length str)))))
+    (when (/= (point) (line-beginning-position))
+      ;; Org objects such as file links do not have a newline added when
+      ;; converting to their string representation by
+      ;; `org-element-interpret-data' so insert one in these cases.
+      (insert "\n"))))
+#+end_src
+
+** Org roam
+#+begin_src elisp
+(use-package! org-roam
+  :hook (after-init . org-roam-mode)
+  :custom(org-roam-directory (concat org-directory "/roam")))
+
+(use-package! company-org-roam
+  :config
+  (push 'company-org-roam company-backends))
 #+end_src
 
 * Packages
@@ -109,13 +138,21 @@ Solves the [[https://github.com/bbatsov/projectile/issues/657][issue]] where ~Pr
   (setq projectile-mode-line "Projectile"))
 #+end_src
 
-**  Company-posframe
-[[*Font][Mixed pitch]] allows different fonts in org mode for prose and code, however, this doesn't interact super great with company. [[https://github.com/tumashu/company-posframe/][Company-posframe]] solves this. [[https://github.com/sebastiencs/company-box][Company-box]] looks quite a bit nicer with icons and docstring-popup, but it crashes when used in ~emacs-jupyter~, which is super sad. Added in [[file:packages.el::package! company-posframe][package.el]].
+# **  Company-posframe
+# [[*Font][Mixed pitch]] allows different fonts in org mode for prose and code, however, this doesn't interact super great with company. [[https://github.com/tumashu/company-posframe/][Company-posframe]] solves this. [[https://github.com/sebastiencs/company-box][Company-box]] looks quite a bit nicer with icons and docstring-popup, but it crashes when used in ~emacs-jupyter~, which is super sad. Added in [[file:packages.el::package! company-posframe][package.el]].
 
+# #+begin_src elisp
+# (use-package! company-posframe
+#   :hook (company-mode . company-posframe-mode))
+# #+end_src
+
+**  Company-box
+[[https://github.com/sebastiencs/company-box][Company-box]] looks quite a bit nicer with icons and docstring-popup, but has crashes at times when used in ~emacs-jupyter~, which is super sad. Added in [[file:packages.el::package! company-posframe][package.el]].
 #+begin_src elisp
 (use-package! company-posframe
-  :hook (company-mode . company-posframe-mode))
+  :hook (company-mode . company-box-mode))
 #+end_src
+
 **  Undo-fu
 I think there might be an issue with ~undo-fu-session~ since it sometimes outputs =Undo-Fu-Session discarding undo data: file length mismatch=. I am not sure if this affects performance but I don't really care if undo is bounded by a session, so it is disabled here.
 #+begin_src elisp
@@ -135,4 +172,6 @@ Unfortunately [[https://github.com/gjkerns/ob-julia/blob/master/ob-julia-doc.org
 Config can be in the Julia module [[https://github.com/hlissner/doom-emacs/blob/develop/modules/lang/julia/README.org][README]]. ~julia-lsp~ installed in [[file:packages.el::package! lsp-julia :recipe (:host github :repo "non-jedi/lsp-julia")][package.el]].
 #+begin_src elisp
 (setq lsp-julia-default-environment "~/.julia/environments/v1.5")
+(setq lsp-julia-package-dir "~/.emacs.d/.local/straight/repos/lsp-julia/languageserver")
+(setq lsp-enable-folding t)
 #+end_src

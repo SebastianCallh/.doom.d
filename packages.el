@@ -50,7 +50,6 @@
 
 ;; Added packages
 (package! mixed-pitch)
-(package! company-box)
 (package! restclient)
 
 ;: Disabled

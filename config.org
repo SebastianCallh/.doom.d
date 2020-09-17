@@ -59,6 +59,23 @@ Use ~mixed-pitch~ to have separate fonts in code blocks and in prose. The Vollko
       doom-big-font (font-spec :family "Fira Code" :size 28))
 #+end_src
 
+** Modeline
+*** Minions
+Hides minor modes.
+#+begin_src elisp
+(use-package! minions
+  :config (minions-mode 1))
+#+end_src
+
+*** Mini modeline
+It's free real estate!
+#+begin_src elisp
+(use-package! mini-modeline
+  :after smart-mode-line
+  :config
+  (mini-modeline-mode t))
+#+end_src
+
 * Performance
   Also disable some packages in [[file:packages.el::;: Pemoved for performance reason][packages.el]].
 #+begin_src elisp
@@ -179,6 +196,7 @@ Unfortunately [[https://github.com/gjkerns/ob-julia/blob/master/ob-julia-doc.org
 Config can be in the Julia module [[https://github.com/hlissner/doom-emacs/blob/develop/modules/lang/julia/README.org][README]]. ~julia-lsp~ installed in [[file:packages.el::package! lsp-julia :recipe (:host github :repo "non-jedi/lsp-julia")][package.el]].
 #+begin_src elisp
 (setq lsp-julia-default-environment "~/.julia/environments/v1.5")
-(setq lsp-julia-package-dir "~/.emacs.d/.local/straight/repos/lsp-julia/languageserver")
+(setq lsp-julia-package-dir nil)
+;; (setq lsp-julia-package-dir "~/.emacs.d/.local/straight/repos/lsp-julia/languageserver")
 (setq lsp-enable-folding t)
 #+end_src

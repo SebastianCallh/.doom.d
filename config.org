@@ -123,11 +123,18 @@ Use ~mixed-pitch~ to have separate fonts in code blocks and in prose. The Vollko
 #+end_src
 
 ** Tramp
+We want to avoid [[https://www.reddit.com/r/emacs/comments/320cvb/projectile_slows_tramp_mode_to_a_crawl_is_there_a/][Projectile slowing down Tramp]], and we use some of the [[https://www.gnu.org/software/emacs/manual/html_node/tramp/Frequently-Asked-Questions.html][tricks in the Emacs manual]].
 #+begin_src elisp
 (after! tramp
   :config
   (setq recentf-auto-cleanup 'never)
-  (setq tramp-verbose 3))
+  (setq projectile-mode-line "Projectile")
+  (setq tramp-completion-reread-directory-timeout nil)
+  (setq tramp-verbose 1)
+  (setq vc-ignore-dir-regexp
+        (format "\\(%s\\)\\|\\(%s\\)"
+                vc-ignore-dir-regexp
+                tramp-file-name-regexp)))
 #+end_src
 
 ** Projectile

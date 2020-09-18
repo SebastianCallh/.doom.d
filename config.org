@@ -53,10 +53,10 @@ Use ~mixed-pitch~ to have separate fonts in code blocks and in prose. The Vollko
   :hook
   (org-mode . mixed-pitch-mode))
 
-(setq doom-font (font-spec :family "Fira Code" :size 22)
+(setq doom-font (font-spec :family "Hasklig" :size 22)
       doom-variable-pitch-font (font-spec :family "Vollkorn")
-      doom-unicode-font (font-spec :family "Fira Code")
-      doom-big-font (font-spec :family "Fira Code" :size 28))
+      doom-unicode-font (font-spec :family "Hasklig")
+      doom-big-font (font-spec :family "Hasklig" :size 28))
 #+end_src
 
 ** Modeline

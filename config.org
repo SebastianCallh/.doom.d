@@ -60,20 +60,11 @@ Use ~mixed-pitch~ to have separate fonts in code blocks and in prose. The Vollko
 #+end_src
 
 ** Modeline
-*** Minions
-Hides minor modes.
+Currently running with Doom modeline.
 #+begin_src elisp
-(use-package! minions
-  :config (minions-mode 1))
-#+end_src
-
-*** Mini modeline
-It's free real estate!
-#+begin_src elisp
-(use-package! mini-modeline
-  :after smart-mode-line
+(use-package! doom-modeline
   :config
-  (mini-modeline-mode t))
+  (setq doom-modeline-buffer-file-name-style 'auto))
 #+end_src
 
 * Performance

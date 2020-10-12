@@ -118,8 +118,14 @@ Currently running with Doom modeline.
   :custom(org-roam-directory (concat org-directory "/roam")))
 
 (use-package! company-org-roam
+* Packages
+** Dired
+Regular Dired mode shows so much stuff and seeing my name on folders twice really clutters the screen. Hence we turn off detail mode by default.
+
+#+begin_src elisp
+(use-package! dired
   :config
-  (push 'company-org-roam company-backends))
+  (add-hook 'dired-mode-hook 'dired-hide-details-mode))
 #+end_src
 
 * Packages

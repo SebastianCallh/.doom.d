@@ -51,6 +51,7 @@
 ;; Added packages
 (package! mixed-pitch)
 (package! restclient)
+(package! company-posframe)
 
 
 ;: Disabled

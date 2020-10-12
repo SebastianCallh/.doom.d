@@ -42,7 +42,7 @@ Using the [[file:init.el::literate][literate module]] this file is tangled on sa
 
 ** Theme
 #+begin_src elisp
-(setq doom-theme 'doom-zenburn)
+(setq doom-theme 'doom-miramare)
 #+end_src
 
 ** Font

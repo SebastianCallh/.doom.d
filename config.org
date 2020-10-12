@@ -198,3 +198,10 @@ Config can be in the Julia module [[https://github.com/hlissner/doom-emacs/blob/
 ;; (setq lsp-julia-package-dir "~/.emacs.d/.local/straight/repos/lsp-julia/languageserver")
 (setq lsp-enable-folding t)
 #+end_src
+*** EIN
+For some reason undo is disabled by default.
+#+begin_src elisp
+(use-package! ein
+  :config
+  (setq ein:worksheet-enable-undo t))
+#+end_src

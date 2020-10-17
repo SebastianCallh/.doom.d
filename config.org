@@ -111,11 +111,24 @@ Currently running with Doom modeline.
       (insert "\n"))))
 #+end_src
 
-** Org roam
+** Org Roam
 #+begin_src elisp
 (use-package! org-roam
   :hook (after-init . org-roam-mode)
   :custom(org-roam-directory (concat org-directory "/roam")))
+#+end_src
+
+** Org Babel
+#+begin_src elisp
+(require 'org-tempo)
+
+(add-to-list 'org-structure-template-alist '("py" . "src python"))
+(add-to-list 'org-structure-template-alist '("ipy" . "src jupyter-python"))
+(add-to-list 'org-structure-template-alist '("j" . "src julia"))
+(add-to-list 'org-structure-template-alist '("ij" . "src jupyter-julia"))
+(add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+(add-to-list 'org-structure-template-alist '("sh". "src sh"))
+#+end_src
 
 (use-package! company-org-roam
 * Packages

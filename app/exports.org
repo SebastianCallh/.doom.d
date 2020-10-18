@@ -1,9 +1,9 @@
 * Exports
 :properties:
-:header-args: :tangle no :exports code :eval never-export
+:header-args: :tangle no :exports code :eval never
 :end:
 
-We emit certain configurations from Emacs to other applications  using [[https://orgmode.org/manual/Noweb-Reference-Syntax.html#Noweb-Reference-Syntax][noweb syntax]].
+We emit certain configurations from Emacs to other applications using [[https://orgmode.org/manual/Noweb-Reference-Syntax.html#Noweb-Reference-Syntax][noweb syntax]].
 
 ** Fonts
 We want a consistent use of fonts for terminals, application managers etc.

@@ -1,14 +1,12 @@
-#+TITLE: Sway
-
 * Sway
 :properties:
-:header-args:  :tangle ~/.config/sway/config :noweb yes :exports code
+:header-args:  :tangle ~/.config/sway/config :noweb yes :exports code :mkdirp yes
 :end:
 
 Sway is a cool window manager for Wayland. Good info on their [[https://github.com/swaywm/sway/wiki][GitHub Wiki]].
 
 ** Variables
-#+begin_src bash
+#+begin_src conf
 # Logo key. Use Mod1 for Alt.
 set $mod Mod4
 # Home row direction keys, like vim
@@ -17,30 +15,36 @@ set $down k
 set $up i
 set $right l
 set $term alacritty
-set $bg ~/.config/sway/gray-swirl.png fill
+set $bg <<bg()>> solid_color
 #+end_src
 
 ** Application launcher
 The final command to the application launcher should be forwarded to sway.
 
-#+begin_src bash
-set $menu dmenu_path | dmenu | xargs swaymsg exec --
+#+begin_src conf
+set $menu rofi -show run -theme sidebar
+bindsym $mod+d exec $menu
+#+end_src
 
-set $indicator_color 0086b3
-set $clear_color 0086b3
-set $wrong_color <<red>> # 0086b3
-set $ver_color 0086b3
-set $keypress_color <<yellow>>ba8baf
-set $lock 'swaylock -f -c 000000 -i $bg --inside-color $indicator_color --ring-color $indicator_color --ring-clear-color $clear_color --inside-clear-color $clear_color --inside-wrong-color $wrong_color --ring-wrong-color $wrong_color --inside-ver-color $ver_color --ring-ver-color $ver_color --key-hl-color $keypress_color'
+** Lock screen
+~swaylock~ has to be provided colours without leading ~#~.
+#+begin_src conf
+set $indicator_color <<fmt-nums(fg())>>
+set $clear_color <<fmt-nums(red())>>
+set $wrong_color <<fmt-nums(red())>>
+set $ver_color <<fmt-nums(dark-blue())>>
+set $keypress_color <<fmt-nums(dark-green())>>
+set $lock 'swaylock -f -c <<fmt-nums(bg())>> --inside-color $indicator_color --ring-color $indicator_color --ring-clear-color $clear_color --inside-clear-color $clear_color --inside-wrong-color $wrong_color --ring-wrong-color $wrong_color --inside-ver-color $ver_color --ring-ver-color $ver_color --key-hl-color $keypress_color'
+bindsym $mod+c exec $lock
 #+end_src
 
 ** Output configurations
 Names of outputs (like monitors) can be found by  running
-#+begin_src bash :tangle no
+#+begin_src conf :tangle no
 swaymsg -t get_outputs
 #+end_src
 
-#+begin_src bash
+#+begin_src conf
 output eDP-1 {
        background $bg
        scale 2
@@ -55,11 +59,11 @@ output DP-2 {
 
 ** Input configurations
 Names of inputs (like mouse pad) can be found  by running
-#+begin_src bash :tangle no
+#+begin_src conf :tangle no
 swaymsg -t get_inputs
 #+end_src
 
-#+begin_src bash
+#+begin_src conf
 input "1739:30383:DELL08AF:00_06CB:76AF_Touchpad" {
       dwt enabled
       tap disabled
@@ -77,51 +81,44 @@ input "type:keyboard" {
 # Hotkeys for changin between se and us kbd layouts
 bindsym $mod+Shift+s input type:keyboard xkb_layout se
 bindsym $mod+Shift+u input type:keyboard xkb_layout us
+#+end_src
 
-#
-# Key bindings:
-#
-    # $mod + left mouse drag windows
-    floating_modifier $mod normal
-    # Start a terminal
-    bindsym $mod+Return exec $term
-    # Kill focused window
-    bindsym $mod+Shift+q kill
-    # Start your launcher
-    bindsym $mod+d exec $menu
-    # Lock workspace
-    bindsym $mod+c exec $lock
-    # Reload config
-    bindsym $mod+Shift+r reload
-    # Print screen
-    bindsym $mod+p exec grim -g "$(slurp)" ~/Pictures/printscreen.png
-    # Exit sway
-    bindsym $mod+Shift+e exec swaynag -t warning -m 'Do you really want to exit sway?' -b 'Yes' 'swaymsg exit'
+** Key bindings
+#+begin_src conf
+# $mod + left mouse drag windows
+floating_modifier $mod normal
+# Start a terminal
+bindsym $mod+Return exec $term
+# Kill focused window
+bindsym $mod+Shift+q kill
+# Reload config
+bindsym $mod+Shift+r reload
+# Print screen
+bindsym $mod+p exec grim -g "$(slurp)" ~/Pictures/printscreen.png
+# Exit sway
+bindsym $mod+Shift+e exec swaynag -t warning -m 'Do you really want to exit sway?' -b 'Yes' 'swaymsg exit'
 
-#
-# Moving around:
-#
-    # Move your focus around
-    bindsym $mod+$left focus left
-    bindsym $mod+$down focus down
-    bindsym $mod+$up focus up
-    bindsym $mod+$right focus right
+# Move your focus around
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
 
-    # Move the focused window with the same, but add Shift
-    bindsym $mod+Shift+$left move left
-    bindsym $mod+Shift+$down move down
-    bindsym $mod+Shift+$up move up
-    bindsym $mod+Shift+$right move right
+# move the focused window with the same, but add Shift
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
 #+end_src
 
 ** Notification daemon
-#+begin_src bash
+#+begin_src conf
 exec mako
+bindsym $mod+n exec makoctl dismiss
 #+end_src
 
 ** Idle configuration
-#+begin_src bash
-### Idle configuration#
+#+begin_src conf
 exec swayidle -w \
      timeout 300 $lock \
      timeout 600 'swaymsg "output * dpms off"' \
@@ -131,77 +128,69 @@ exec swayidle -w \
 #+end_src
 
 ** Workspaces
-#+begin_src bash
-    # Switch to workspace
-    bindsym $mod+1 workspace 1
-    bindsym $mod+2 workspace 2
-    bindsym $mod+3 workspace 3
-    bindsym $mod+4 workspace 4
-    bindsym $mod+5 workspace 5
-    bindsym $mod+6 workspace 6
-    bindsym $mod+7 workspace 7
-    bindsym $mod+8 workspace 8
-    bindsym $mod+9 workspace 9
-    bindsym $mod+0 workspace 10
+Workspaces /can/ have any name you want, not just numbers.
 
-    # Move focused container to workspace
-    bindsym $mod+Shift+1 move container to workspace 1
-    bindsym $mod+Shift+2 move container to workspace 2
-    bindsym $mod+Shift+3 move container to workspace 3
-    bindsym $mod+Shift+4 move container to workspace 4
-    bindsym $mod+Shift+5 move container to workspace 5
-    bindsym $mod+Shift+6 move container to workspace 6
-    bindsym $mod+Shift+7 move container to workspace 7
-    bindsym $mod+Shift+8 move container to workspace 8
-    bindsym $mod+Shift+9 move container to workspace 9
-    bindsym $mod+Shift+0 move container to workspace 10
-    # Note: workspaces can have any name you want, not just numbers.
-    # We just use 1-10 as the default.
+#+begin_src conf
+# Switch to workspace
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 10
 
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace 10
 #+end_src
 
 ** Layout stuff
-#+begin_src bash
-    # You can "split" the current object of your focus with
-    # $mod+b or $mod+v, for horizontal and vertical splits
-    # respectively.
-    bindsym $mod+b splith
-    bindsym $mod+v splitv
-
-    # Switch the current container between different layout styles
-    bindsym $mod+s layout stacking
-    bindsym $mod+w layout tabbed
-    bindsym $mod+e layout toggle split
-
-    # Make the current focus fullscreen
-    bindsym $mod+f fullscreen
-
-    # Toggle the current focus between tiling and floating mode
-    bindsym $mod+Shift+space floating toggle
-
-    # Swap focus between the tiling area and the floating area
-    bindsym $mod+space focus mode_toggle
-
-    # Move focus to the parent container
-    bindsym $mod+a focus parent
+#+begin_src conf
+# You can "split" the current object of your focus with
+# $mod+b or $mod+v, for horizontal and vertical splits
+# respectively.
+bindsym $mod+b splith
+bindsym $mod+v splitv
+# switch the current container between different layout styles
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+# make the current focus fullscreen
+bindsym $mod+f fullscreen
+# toggle the current focus between tiling and floating mode
+bindsym $mod+Shift+space floating toggle
+# swap focus between the tiling area and the floating area
+bindsym $mod+space focus mode_toggle
+# move focus to the parent container
+bindsym $mod+a focus parent
 
 #+end_src
 
 ** Scratchpad
-#+begin_src bash
-    # Sway has a "scratchpad", which is a bag of holding for windows.
-    # You can send windows there and get them back later.
+Sway has a "scratchpad", which is a bag of holding for windows. You can send windows there and get them back later.
+#+begin_src conf
+# Move the currently focused window to the scratchpad
+bindsym $mod+Shift+minus move scratchpad
 
-    # Move the currently focused window to the scratchpad
-    bindsym $mod+Shift+minus move scratchpad
-
-    # Show the next scratchpad window or hide the focused scratchpad window.
-    # If there are multiple scratchpad windows, this command cycles through them.
-    bindsym $mod+minus scratchpad show
+# Show the next scratchpad window or hide the focused scratchpad window.
+# If there are multiple scratchpad windows, this command cycles through them.
+bindsym $mod+minus scratchpad show
 #+end_src
 
 ** Resizing
-#+begin_src bash
+#+begin_src conf
 mode "resize" {
 
     bindsym $left resize shrink width 10px
@@ -218,40 +207,19 @@ bindsym $mod+r mode "resize"
 #+end_src
 
 ** Status bar
-#+begin_src bash
+#+begin_src conf
 bar {
   swaybar_command waybar
   workspace_buttons yes
 }
+#+end_src
 
-# Read `man 5 sway-bar` for more information about this section.
-# bar {
-#     position bottom
-
-#     status_command i3blocks
-
-#     # When the status_command prints a new line to stdout, swaybar updates.
-#     # The default just shows the current date and time.
-#     #status_command while date +'%Y-%m-%d %l:%M:%S %p'; do sleep 1; done
-#     # old foreground #F0DFAF
-#     # old background #323232
-#     # old focused #3F5F3F #4F6F4F
-#     # old urgent #6C3333 #8C5353
-#     colors {
-#         statusline <<fg()>>
-#         background <<bg()>>
-
-#         inactive_workspace <<bg()>> <<bg()>> <<fg()>>
-#         focused_workspace <<grey()>> <<green()>> <<bg()>>
-#         urgent_workspace  <<grey()>> <<red()>> <<fg()>>
-#     }
-# }
-
-# Application borders
+** Application borders
+#+begin_src conf
 default_border none
-client.focused #383838 #DFAF8F #383838 #000000 #000000
-client.urgent #6C3333 #8C5353 <<fg()>> #000000 #000000
+client.focused <<bg()>> <<fg()>> <<bg()>> #000000 #000000
+client.urgent <<red()>> <<red()>> <<fg()>> #000000 #000000
+client.unfocused <<bg()>> <<bg()>> <<fg()>> #000000 #000000
 
 include /etc/sway/config.d/*
-
 #+end_src

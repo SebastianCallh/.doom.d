@@ -1,7 +1,7 @@
 #+TITLE: Doom configuration
 #+AUTHOR: Sebastian Callh
 #+EMAIL: sebastian.callh@gmail.com
-#+PROPERTY: header-args:elisp :tangle yes :exports code
+#+PROPERTY: header-args:elisp :tangle yes :exports code :mkdirp yes
 
 * Personal Doom Configuration
 This config file is intended to be used with [[https://github.com/hlissner/doom-emacs][Doom emacs]]. Since Doom is very batteries-included, this file mostly contains personal touches.
@@ -48,7 +48,8 @@ The aesthetic setup is done by specifying a /colour scheme/ which will be used w
 (when (eq sc/colour-scheme 'miramare)
   (setq doom-theme 'doom-miramare)
   (setq sc/foreground "#e6d6ac")
-  (setq sc/background "#242021")
+  (setq sc/background "#2a2426")
+  (setq sc/black      "#1c1c1c")
   (setq sc/grey       "#5b5b5b")
   (setq sc/red        "#e68183")
   (setq sc/magenta    "#e68183")
@@ -63,10 +64,11 @@ The aesthetic setup is done by specifying a /colour scheme/ which will be used w
   (setq sc/cyan       "#87c095")
   (setq sc/dark-cyan  "#67a075"))
 
-(when (eq sc/colour-scheme 'zenburn')
+(when (eq sc/colour-scheme 'zenburn)
   (setq doom-theme 'doom-zenburn)
   (setq sc/foreground  "#F0DFAF")
   (setq sc/background  "#282828")
+  (setq sc/black       "#1c1c1c")
   (setq sc/grey        "#5b5b5b")
   (setq sc/red         "#AC7373")
   (setq sc/magenta     "#DC8CC3")
@@ -84,19 +86,26 @@ The aesthetic setup is done by specifying a /colour scheme/ which will be used w
   (setq sc/dark-cyan   "#93E0E3"))
 #+end_src
 
+#+RESULTS:
+
 ** Font
 Use ~mixed-pitch~ to have separate fonts in code blocks and in prose. The Vollkorn typeface is available at [[http://vollkorn-typeface.com/][their website]].
 Haskling does not support fancy UTF-8 characters which I like to use in Julia, so we have to use Fira Code. But I can't get Fira Code ligatures to work, so we have to do without.
+
+#+begin_src emacs-lisp
+(setq sc/code-font "Fira Code")
+(setq sc/prose-font "Vollkorn")
+#+end_src
 
 #+begin_src elisp
 (use-package! mixed-pitch
   :hook
   (org-mode . mixed-pitch-mode))
 
-(setq doom-font (font-spec :family "Fira Code" :size 18)
-      doom-variable-pitch-font (font-spec :family "Vollkorn")
-      doom-unicode-font (font-spec :family "Fira Code")
-      doom-big-font (font-spec :family "Fira Code" :size 28))
+(setq doom-font (font-spec :family sc/code-font :size 16)
+      doom-variable-pitch-font (font-spec :family sc/prose-font)
+      doom-unicode-font (font-spec :family sc/code-font)
+      doom-big-font (font-spec :family sc/code-font :size 28))
 #+end_src
 
 ** Modeline
@@ -130,32 +139,32 @@ Currently running with Doom modeline.
    '(org-level-2 ((t (:inherit outline-2 :height 1.15))))
    '(org-level-3 ((t (:inherit outline-3 :height 1.1))))
    '(org-level-4 ((t (:inherit outline-4 :height 1.0))))
-   '(org-level-5 ((t (:inherit outline-5 :height 1.0)))))
-  
-  (cl-defmethod jupyter-org--insert-result (_req context result)
-    (let ((str
-           (org-element-interpret-data
-            (jupyter-org--wrap-result-maybe
-             context (if (jupyter-org--stream-result-p result)
-                         (thread-last result
-                           jupyter-org-strip-last-newline
-                           jupyter-org-scalar)
-                       result)))))
-      (if (< (length str) 10000)
-          (insert str)
-        (insert (format ": Output truncated, original length was %d" (length str)))))
-    (when (/= (point) (line-beginning-position))
-      ;; Org objects such as file links do not have a newline added when
-      ;; converting to their string representation by
-      ;; `org-element-interpret-data' so insert one in these cases.
-      (insert "\n"))))
+   '(org-level-5 ((t (:inherit outline-5 :height 1.0))))))
+
+  ;; (cl-defmethod jupyter-org--insert-result (_req context result)
+  ;;   (let ((str
+  ;;          (org-element-interpret-data
+  ;;           (jupyter-org--wrap-result-maybe
+  ;;            context (if (jupyter-org--stream-result-p result)
+  ;;                        (thread-last result
+  ;;                          jupyter-org-strip-last-newline
+  ;;                          jupyter-org-scalar)
+  ;;                      result)))))
+  ;;     (if (< (length str) 10000)
+  ;;         (insert str)
+  ;;       (insert (format ": Output truncated, original length was %d" (length str)))))
+  ;;   (when (/= (point) (line-beginning-position))
+  ;;     ;; Org objects such as file links do not have a newline added when
+  ;;     ;; converting to their string representation by
+  ;;     ;; `org-element-interpret-data' so insert one in these cases.
+  ;;     (insert "\n"))))
 #+end_src
 
 ** Org Roam
 #+begin_src elisp
 (use-package! org-roam
   :hook (after-init . org-roam-mode)
-  :custom(org-roam-directory (concat org-directory "/roam")))
+  :custom (org-roam-directory (concat org-directory "/roam")))
 #+end_src
 
 ** Org Babel
@@ -170,7 +179,6 @@ Currently running with Doom modeline.
 (add-to-list 'org-structure-template-alist '("sh". "src sh"))
 #+end_src
 
-(use-package! company-org-roam
 * Packages
 ** Dired
 Regular Dired mode shows so much stuff and seeing my name on folders twice really clutters the screen. Hence we turn off detail mode by default.
@@ -181,7 +189,6 @@ Regular Dired mode shows so much stuff and seeing my name on folders twice reall
   (add-hook 'dired-mode-hook 'dired-hide-details-mode))
 #+end_src
 
-* Packages
 ** Avy
 #+begin_src elisp
 (use-package! avy
@@ -227,6 +234,23 @@ I think there might be an issue with ~undo-fu-session~ since it sometimes output
 (remove-hook 'undo-fu-mode-hook #'global-undo-fu-session-mode)
 #+end_src
 
+** Deft
+#+begin_src elisp
+(use-package! deft
+  :config
+  (setq deft-extensions '("txt" "tex" "org"))
+  (setq deft-directory "~/Dropbox/org")
+  (setq deft-recursive t))
+#+end_src
+
+** Conda
+Seems like this does not interact with ~M-x term~ so it's not very useful.
+#+begin_src elisp
+(use-package! conda
+  :config
+  (lambda() conda-env-initialize-interactive-shell))
+#+end_src
+
 * Programming
 ** Data science
 *** Ess
@@ -237,92 +261,59 @@ Unfortunately [[https://github.com/gjkerns/ob-julia/blob/master/ob-julia-doc.org
 #+end_src
 
 *** Julia
-Config can be in the Julia module [[https://github.com/hlissner/doom-emacs/blob/develop/modules/lang/julia/README.org][README]]. ~julia-lsp~ installed in [[file:packages.el::package! lsp-julia :recipe (:host github :repo "non-jedi/lsp-julia")][package.el]].
+Config can be in the Julia module [[https://github.com/hlissner/doom-emacs/blob/develop/modules/lang/julia/README.org][README]]. ~julia-lsp~ installed in [[file:packages.el::package! lsp-julia :recipe (:host github :repo "non-jedi/lsp-julia")][package.el]]. Needs ~lsp-enable-folding~ or it breaks for some reason.
 #+begin_src elisp
-(setq lsp-julia-default-environment "~/.julia/environments/v1.5")
-(setq lsp-julia-package-dir nil)
-;; (setq lsp-julia-package-dir "~/.emacs.d/.local/straight/repos/lsp-julia/languageserver")
 (setq lsp-enable-folding t)
 #+end_src
+
 *** EIN
-For some reason undo is disabled by default.
+For some reason undo is disabled by default, so we enable it.  We also enable inline images.
 #+begin_src elisp
 (use-package! ein
   :config
-  (setq ein:worksheet-enable-undo t))
+  (setq ein:worksheet-enable-undo t)
+  (setq ein:output-area-inlined-images t))
+#+end_src
+
 * Applications
 Why limit ourselves to only configuring Emacs in Emacs when we can configure /anything/? Using  ~tangle~ we can emit configuration files to anything we want.
 ** Applications
+#+include: app/exports.org
 #+include: app/sway.org
 #+include: app/waybar.org
+#+include: app/mako.org
 #+include: app/alacritty.org
+#+include: app/rofi.org
 
-To reduce clutter the application specific configurations reside in their own config files.
+To reduce clutter the application specific configurations reside in their own config files. Additionally, we expose variables from Emacs to other config files by listing them in the [[./app/exports.org][exports]] file.
 - [[./app/sway.org][Sway]]
-- [[./app/alacritty.org][Alacritty]]
 - [[./app/waybar.org][Waybar]]
+- [[./app/mako.org][Mako]]
+- [[./app/alacritty.org][Alacritty]]
+- [[./app/rofi.org][Rofi]]
 
-** Export colours
-:properties:
-:header-args: :tangle no :exports code
-:end:
-
+** Exports
 To get a unified appearance of  our workstation we export the colours from Emacs to our config files by using [[https://orgmode.org/manual/Noweb-Reference-Syntax.html#Noweb-Reference-Syntax][noweb syntax]].
 
-#+name: fg
-#+begin_src emacs-lisp
-sc/foreground
-#+end_src
+** Email
+Set up based on [[http://pragmaticemacs.com/emacs/migrating-from-offlineimap-to-mbsync-for-mu4e/][this blog post]].
 
-#+name: bg
-#+begin_src emacs-lisp
-sc/background
-#+end_src
+#+begin_src elisp
+;; (use-package! mu4e
+;;   :config
+;;   (setq mu4e-maildir (expand-file-name "~/mail"))
+;;   ;;command used to get mail
+;;   ;; use this for testing
+;;   (setq mu4e-get-mail-command "true")
+;;   ;; use this to sync with mbsync
+;;   ;;(setq mu4e-get-mail-command "mbsync gmail")
 
-#+name: red
-#+begin_src emacs-lisp
-sc/red
-#+end_src
+;;   ;;rename files when moving
+;;   ;;NEEDED FOR MBSYNC
+;;   (setq mu4e-change-filenames-when-moving t)
 
-#+name: green
-#+begin_src emacs-lisp
-sc/dark-green
-#+end_src
-
-#+name: bright-green
-#+begin_src emacs-lisp
-sc/green
-#+end_src
-
-#+name: yellow
-#+begin_src emacs-lisp
-sc/yellow
-#+end_src
-
-#+name: blue
-#+begin_src emacs-lisp
-sc/blue
-#+end_src
-
-#+name: magenta
-#+begin_src emacs-lisp
-sc/magenta
-#+end_src
-
-#+name: cyan
-#+begin_src emacs-lisp
-sc/cyan
-#+end_src
-
-#+name: grey
-#+begin_src emacs-lisp
-sc/grey
-#+end_src
-
-We use the following Python snippet to parse colors from ~#000000~ to ~0x000000~ format when it's needed (i.e. for [[file:app/alacritty.org][Alacritty]]).
-
-#+name: fmt-0x
-#+begin_src python :var color = "" :tangle no
-return color.replace('#', '0x')
-#+end_src
+;;   ;;set up queue for offline email
+;;   ;;use mu mkdir  ~/mail/queue to set up first
+;;   (setq smtpmail-queue-mail nil  ;; start in normal mode
+;;         smtpmail-queue-dir   "~/Maildir/queue/cur"))
 #+end_src

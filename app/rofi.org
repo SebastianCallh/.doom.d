@@ -1,0 +1,146 @@
+* Rofi
+:properties:
+:header-args:  :noweb yes :exports code :mkdirp yes
+:end:
+
+Application launcher. While not on Wayland it is battle tested and highly customisable.
+
+#+begin_src conf :tangle ~/.config/rofi/config
+rofi.color-enabled: true
+
+# ! Window:           'background',  'border', 'separator'
+# rofi.color-window: argb:8832302F,  #FFFFC8, argb:ffffffff
+
+# !   State:              'bg',       'fg',   'altbg',        'hlbg',         hlfg
+# rofi.color-normal: argb:00252936, #FFFFC8, argb:00252936, argb:009575cd, #83A598
+# rofi.color-active: argb:00252936, #FFFFC8, argb:00252936, argb:009575cd, #FFFFC8
+# rofi.color-urgent: argb:00252936, #83A598, argb:00252936, argb:00252936, #FB4933
+
+# rofi.width: 100
+# rofi.padding: 10
+# rofi.line-margin: 15
+# rofi.lines: 3
+# rofi.separator-style: none
+# rofi.columns: 1
+rofi.font: <<code-font()>> Bold 12
+# rofi.bw: 0
+# rofi.eh: 2
+# rofi.hide-scrollbar: true
+# rofi.auto-select: true
+# !rofi.display-drun:⚌
+theme: sidebar
+#+end_src
+
+#+begin_src css :tangle ~/.config/rofi/sidebar.rasi
+ ,* {
+    text-color:  <<fg()>>;
+    background-color: <<bg()>>;
+    dark: #3d352a;
+    // Black
+    black:       <<black()>>;
+    lightblack:  <<bg()>>;
+    //
+    // Red
+    red:         #cd5c5c;
+    lightred:    #cc5533;
+    //
+    // Green
+    green:       #86af80;
+    lightgreen:  #88cc22;
+    //
+    // Yellow
+    yellow:      #e8ae5b;
+    lightyellow:     #ffa75d;
+    //
+    // Blue
+    blue:      <<dark-blue()>>;
+    lightblue:     <<blue()>>;
+    //
+    // Magenta
+    magenta:      #deb887;
+    lightmagenta:     #996600;
+    //
+    // Cyan
+    cyan:      #b0c4de;
+    lightcyan:     #b0c4de;
+    //
+    // White
+    white:      #bbaa99;
+    lightwhite:     <<fg()>>;
+    //
+    // Bold, Italic, Underline
+    highlight:     bold #ffffff;
+}
+#window {
+    height:   100%;
+    width: 10em;
+    location: west;
+    anchor:   west;
+    border:  0px 2px 0px 0px;
+    text-color: @lightwhite;
+}
+
+#mode-switcher {
+    border: 2px 0px 0px 0px;
+    background-color: @lightblack;
+}
+#button selected {
+    border-color: @lightgreen;
+    text-color: @lightgreen;
+}
+#entry {
+    width: 20em;
+}
+#inputbar {
+    background-color: @lightblack;
+    text-color: @lightgreen;
+    padding: 4px;
+    border: 0px 0px 2px 0px;
+}
+#mainbox {
+    background-color: @lightblack;
+    height: -10px;
+
+}
+#listview {
+    padding: 0em 0.2em 0em 0.2em;
+    dynamic: false;
+    lines: 0;
+}
+#element selected  normal {
+    background-color: @blue;
+    border: 0px 3px 0px 0px;
+    border-color:  @lightblue;
+}
+#element normal active {
+    text-color: @blue;
+}
+#element normal urgent {
+    text-color: @lightred;
+}
+#element alternate normal {
+}
+#element alternate active {
+    text-color: @lightblue;
+}
+#element alternate urgent {
+    text-color: @lightred;
+}
+#element selected active {
+    background-color: @lightblue;
+    text-color: @dark;
+}
+#element selected urgent {
+    background-color: @lightred;
+    text-color: @dark;
+}
+#inputbar {
+    children:   [ prompt,textbox-prompt-colon,entry,case-indicator ];
+}
+#textbox-prompt-colon {
+    expand:     false;
+    str:        ":";
+    margin:     0px 0.3em 0em 0em ;
+    text-color: @normal-foreground;
+}
+#+end_src

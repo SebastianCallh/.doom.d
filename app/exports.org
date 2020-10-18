@@ -1,0 +1,94 @@
+* Exports
+:properties:
+:header-args: :tangle no :exports code :eval never-export
+:end:
+
+We emit certain configurations from Emacs to other applications  using [[https://orgmode.org/manual/Noweb-Reference-Syntax.html#Noweb-Reference-Syntax][noweb syntax]].
+
+** Fonts
+We want a consistent use of fonts for terminals, application managers etc.
+#+name: code-font
+#+begin_src emacs-lisp
+sc/code-font
+#+end_src
+
+#+name: prose-font
+#+begin_src emacs-lisp
+sc/prose-font
+#+end_src
+
+** Colors
+To get a unified appearance of  our workstation we export the colours we use.
+
+#+name: fg
+#+begin_src emacs-lisp
+sc/foreground
+#+end_src
+
+#+name: bg
+#+begin_src emacs-lisp
+sc/background
+#+end_src
+
+#+name: black
+#+begin_src emacs-lisp
+sc/black
+#+end_src
+
+#+name: red
+#+begin_src emacs-lisp
+sc/red
+#+end_src
+
+#+name: dark-green
+#+begin_src emacs-lisp
+sc/dark-green
+#+end_src
+
+#+name: green
+#+begin_src emacs-lisp
+sc/green
+#+end_src
+
+#+name: yellow
+#+begin_src emacs-lisp
+sc/yellow
+#+end_src
+
+#+name: blue
+#+begin_src emacs-lisp
+sc/blue
+#+end_src
+
+#+name: dark-blue
+#+begin_src emacs-lisp
+sc/dark-blue
+#+end_src
+
+#+name: magenta
+#+begin_src emacs-lisp
+sc/magenta
+#+end_src
+
+#+name: cyan
+#+begin_src emacs-lisp
+sc/cyan
+#+end_src
+
+#+name: grey
+#+begin_src emacs-lisp
+sc/grey
+#+end_src
+
+** Utility functions
+We use some Python snippets to parse colors from ~#000000~ to different formats.
+
+#+name: fmt-0x
+#+begin_src python :var color = "" :tangle no
+return color.replace('#', '0x')
+#+end_src
+
+#+name: fmt-nums
+#+begin_src python :var color = "" :tangle no
+return color.replace('#', '')
+#+end_src

@@ -1,16 +1,12 @@
 * Waybar
+:properties:
+:header-args:  :mkdirp yes
+:end:
+
 [[https://github.com/Alexays/Waybar][Waybar]] is a nice status bar for Wayland. It is configured functionally in a ~config~ file and stylistically in a ~style.css~ file.
 
 ** Config
-#+begin_src json :tangle ~/.config/waybar/config :noweb yes :exports code
-// =============================================================================
-//
-// Waybar configuration
-//
-// Configuration reference: https://github.com/Alexays/Waybar/wiki/Configuration
-//
-// =============================================================================
-
+#+begin_src conf :tangle ~/.config/waybar/config :noweb yes :exports code
 {
     // -------------------------------------------------------------------------
     // Global configuration
@@ -35,7 +31,7 @@
         "memory",
         "cpu",
         "temperature",
-        "custom/keyboard-layout",
+        // "custom/keyboard-layout",
         "battery",
         "tray",
         "clock#date",
@@ -361,9 +357,9 @@
 }
 
 #workspaces button.focused {
-    border-color: <<bright-green()>>;
+    border-color: <<green()>>;
     color: <<fg()>>;
-    background-color: <<green()>>;
+    background-color: <<dark-green()>>;
 }
 
 #workspaces button.urgent {

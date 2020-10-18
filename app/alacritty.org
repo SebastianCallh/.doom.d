@@ -1,6 +1,6 @@
 * Alacritty
 :properties:
-:header-args:  :tangle ~/.config/alacritty/alacritty.yml :noweb yes :exports code
+:header-args:  :tangle ~/.config/alacritty/alacritty.yml :noweb yes :exports code :mkdirp yes
 :end:
 
 #+begin_src yaml
@@ -13,7 +13,7 @@ window:
 # Font configuration
 font:
   normal:
-    family: Fira Code
+    family: <<code-font()>>
     style: Regular
 
   # Point size

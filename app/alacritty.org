@@ -1,0 +1,74 @@
+* Alacritty
+:properties:
+:header-args:  :tangle ~/.config/alacritty/alacritty.yml :noweb yes :exports code
+:end:
+
+#+begin_src yaml
+window:
+  # Pixels, scaled by DPI
+  padding:
+    x: 10
+    y: 5
+
+# Font configuration
+font:
+  normal:
+    family: Fira Code
+    style: Regular
+
+  # Point size
+  size: 14.0
+
+colors:
+  # Default colors
+  primary:
+    background: '<<fmt-0x(bg())>>'
+    foreground: '<<fmt-0x(fg())>>'
+
+  # Normal colors
+  normal:
+    black:   '0x1c1c1c'
+    red:     '0xCC9393'
+    green:   '<<fmt-0x(green())>>'
+    yellow:  '<<fmt-0x(yellow())>>'
+    blue:    '<<fmt-0x(blue())>>'
+    magenta: '<<fmt-0x(magenta())>>'
+    cyan:    '<<fmt-0x(cyan())>>'
+    white:   '0xDCDCCC'
+
+  # Bright colors
+  bright:
+    black:   '0x1c1c1c'
+    red:     '<<fmt-0x(red())>>'
+    green:   '<<fmt-0x(green())>>'
+    yellow:  '<<fmt-0x(yellow())>>'
+    blue:    '<<fmt-0x(blue())>>'
+    magenta: '<<fmt-0x(magenta())>>'
+    cyan:    '<<fmt-0x(cyan())>>'
+    white:   '0xDCDCCC'
+
+  cursor:
+    text:   '0x000000'
+    cursor: '<<fmt-0x(fg())>>'
+
+background_opacity: 1.0
+
+# Allow terminal applications to change Alacritty's window title.
+dynamic_title: true
+
+cursor:
+  #   - ▇ Block
+  #   - _ Underline
+  style: Underline
+
+  # If this is `true`, the cursor will be rendered as a hollow box when the
+  # window is not focused.
+  unfocused_hollow: true
+
+
+live_config_reload: true
+
+shell:
+  program: /usr/bin/zsh
+
+#+end_src

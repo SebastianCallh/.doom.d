@@ -40,20 +40,60 @@ Using the [[file:init.el::literate][literate module]] this file is tangled on sa
 (setq fancy-splash-image "~/.doom.d/images/lambda250.png")
 #+end_src
 
-** Theme
+** Colour scheme
+The aesthetic setup is done by specifying a /colour scheme/ which will be used within Emacs, but also propagated to external programs through tangling in  [[*Applications][Applications]].
 #+begin_src elisp
-(setq doom-theme 'doom-miramare)
+(setq sc/colour-scheme 'miramare)
+
+(when (eq sc/colour-scheme 'miramare)
+  (setq doom-theme 'doom-miramare)
+  (setq sc/foreground "#e6d6ac")
+  (setq sc/background "#242021")
+  (setq sc/grey       "#5b5b5b")
+  (setq sc/red        "#e68183")
+  (setq sc/magenta    "#e68183")
+  (setq sc/violet     "#d3a0bc")
+  (setq sc/orange     "#e39b7b")
+  (setq sc/yellow     "#d9bb80")
+  (setq sc/teal       "#87af87")
+  (setq sc/green      "#87af87")
+  (setq sc/dark-green "#678f67")
+  (setq sc/blue       "#89beba")
+  (setq sc/dark-blue  "#458588")
+  (setq sc/cyan       "#87c095")
+  (setq sc/dark-cyan  "#67a075"))
+
+(when (eq sc/colour-scheme 'zenburn')
+  (setq doom-theme 'doom-zenburn)
+  (setq sc/foreground  "#F0DFAF")
+  (setq sc/background  "#282828")
+  (setq sc/grey        "#5b5b5b")
+  (setq sc/red         "#AC7373")
+  (setq sc/magenta     "#DC8CC3")
+  (setq sc/dark-magenta"#DC8CC3")
+  (setq sc/violet      "#d3a0bc")
+  (setq sc/orange      "#e39b7b")
+  (setq sc/yellow      "#F0DFAF")
+  (setq sc/dark-yell   "#E0CF9F")
+  (setq sc/teal        "#87af87")
+  (setq sc/green       "#5F7F5F")
+  (setq sc/dark-green  "#6F8F6F")
+  (setq sc/blue        "#5C888B")
+  (setq sc/dark-blue   "#5C888B")
+  (setq sc/cyan        "#93E0E3")
+  (setq sc/dark-cyan   "#93E0E3"))
 #+end_src
 
 ** Font
 Use ~mixed-pitch~ to have separate fonts in code blocks and in prose. The Vollkorn typeface is available at [[http://vollkorn-typeface.com/][their website]].
+Haskling does not support fancy UTF-8 characters which I like to use in Julia, so we have to use Fira Code. But I can't get Fira Code ligatures to work, so we have to do without.
 
 #+begin_src elisp
 (use-package! mixed-pitch
   :hook
   (org-mode . mixed-pitch-mode))
 
-(setq doom-font (font-spec :family "Fira Code" :size 22)
+(setq doom-font (font-spec :family "Fira Code" :size 18)
       doom-variable-pitch-font (font-spec :family "Vollkorn")
       doom-unicode-font (font-spec :family "Fira Code")
       doom-big-font (font-spec :family "Fira Code" :size 28))
@@ -210,4 +250,79 @@ For some reason undo is disabled by default.
 (use-package! ein
   :config
   (setq ein:worksheet-enable-undo t))
+* Applications
+Why limit ourselves to only configuring Emacs in Emacs when we can configure /anything/? Using  ~tangle~ we can emit configuration files to anything we want.
+** Applications
+#+include: app/sway.org
+#+include: app/waybar.org
+#+include: app/alacritty.org
+
+To reduce clutter the application specific configurations reside in their own config files.
+- [[./app/sway.org][Sway]]
+- [[./app/alacritty.org][Alacritty]]
+- [[./app/waybar.org][Waybar]]
+
+** Export colours
+:properties:
+:header-args: :tangle no :exports code
+:end:
+
+To get a unified appearance of  our workstation we export the colours from Emacs to our config files by using [[https://orgmode.org/manual/Noweb-Reference-Syntax.html#Noweb-Reference-Syntax][noweb syntax]].
+
+#+name: fg
+#+begin_src emacs-lisp
+sc/foreground
+#+end_src
+
+#+name: bg
+#+begin_src emacs-lisp
+sc/background
+#+end_src
+
+#+name: red
+#+begin_src emacs-lisp
+sc/red
+#+end_src
+
+#+name: green
+#+begin_src emacs-lisp
+sc/dark-green
+#+end_src
+
+#+name: bright-green
+#+begin_src emacs-lisp
+sc/green
+#+end_src
+
+#+name: yellow
+#+begin_src emacs-lisp
+sc/yellow
+#+end_src
+
+#+name: blue
+#+begin_src emacs-lisp
+sc/blue
+#+end_src
+
+#+name: magenta
+#+begin_src emacs-lisp
+sc/magenta
+#+end_src
+
+#+name: cyan
+#+begin_src emacs-lisp
+sc/cyan
+#+end_src
+
+#+name: grey
+#+begin_src emacs-lisp
+sc/grey
+#+end_src
+
+We use the following Python snippet to parse colors from ~#000000~ to ~0x000000~ format when it's needed (i.e. for [[file:app/alacritty.org][Alacritty]]).
+
+#+name: fmt-0x
+#+begin_src python :var color = "" :tangle no
+return color.replace('#', '0x')
+#+end_src
 #+end_src

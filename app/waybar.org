@@ -17,7 +17,7 @@
     "position": "top",
 
     // If height property would be not present, it'd be calculated dynamically
-    "height": 30,
+    "height": 26,
 
     "modules-left": [
         "sway/workspaces",
@@ -28,9 +28,9 @@
     ],
     "modules-right": [
         "network",
-        "memory",
-        "cpu",
-        "temperature",
+        // "memory",
+        // "cpu",
+        // "temperature",
         // "custom/keyboard-layout",
         "battery",
         "tray",
@@ -190,7 +190,7 @@
 
     to {
         color: white;
-        background-color: orange;
+        background-color: <<color("orange")>>;
     }
 }
 
@@ -201,7 +201,7 @@
 
     to {
         color: white;
-        background-color: <<red()>>;
+        background-color: <<color("red")>>;
     }
 }
 
@@ -221,9 +221,9 @@
 
 /* The whole bar */
 #waybar {
-    background: <<bg()>>;
-    color: <<fg()>>;
-    font-family: Cantarell, Noto Sans, sans-serif;
+    background: <<color("bg")>>;
+    color: <<color("fg")>>;
+    font-family: <<font("code")>>, Noto Sans, sans-serif;
     font-size: 13px;
     border-bottom: 1px #080808 solid;
 }
@@ -255,11 +255,11 @@
 }
 
 #battery.warning {
-    color: orange;
+    color: <<color("orange")>>;
 }
 
 #battery.critical {
-    color: <<red()>>;
+    color: <<color("red")>>;
 }
 
 #battery.warning.discharging {
@@ -281,11 +281,11 @@
 }
 
 #cpu.warning {
-    color: orange;
+    color: <<color("orange")>>;
 }
 
 #cpu.critical {
-    color: <<red()>>;
+    color: <<color("red")>>;
 }
 
 #memory {
@@ -295,17 +295,17 @@
 }
 
 #memory.warning {
-    color: orange;
+    color: <<color("orange")>>;
 }
 
 #memory.critical {
-    color: <<red()>>;
+    color: <<color("red")>>;
     animation-name: blink-critical;
     animation-duration: 2s;
 }
 
 #mode {
-    background: <<bg()>>;
+    background: <<color("bg")>>;
     border-top: 2px solid white;
     /* To compensate for the top border and still have vertical centering */
     padding-bottom: 2px;
@@ -316,7 +316,7 @@
 }
 
 #network.disconnected {
-    color: orange;
+    color: <<color("orange")>>;
 }
 
 #pulseaudio {
@@ -336,7 +336,7 @@
 }
 
 #temperature.critical {
-    color: <<fg()>>;
+    color: <<color("fg")>>;
 }
 
 #tray {
@@ -353,18 +353,18 @@
     padding-bottom: 2px;
     padding-left: 10px;
     padding-right: 10px;
-    color: <<fg()>>;
+    color: <<color("fg")>>;
 }
 
 #workspaces button.focused {
-    border-color: <<green()>>;
-    color: <<fg()>>;
-    background-color: <<dark-green()>>;
+    border-color: <<color("green")>>;
+    color: <<color("fg")>>;
+    background-color: <<color("dark-green")>>;
 }
 
 #workspaces button.urgent {
-    border-color: <<red()>>;
-    color: <<red()>>;
+    border-color: <<color("red")>>;
+    color: <<color("red")>>;
 }
 
 #+end_src

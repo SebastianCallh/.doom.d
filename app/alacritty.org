@@ -13,7 +13,7 @@ window:
 # Font configuration
 font:
   normal:
-    family: <<code-font()>>
+    family: <<font("code")>>
     style: Regular
 
   # Point size
@@ -22,34 +22,34 @@ font:
 colors:
   # Default colors
   primary:
-    background: '<<fmt-0x(bg())>>'
-    foreground: '<<fmt-0x(fg())>>'
+    background: '<<fmt-0x(color("bg"))>>'
+    foreground: '<<fmt-0x(color("fg"))>>'
 
   # Normal colors
   normal:
     black:   '0x1c1c1c'
     red:     '0xCC9393'
-    green:   '<<fmt-0x(green())>>'
-    yellow:  '<<fmt-0x(yellow())>>'
-    blue:    '<<fmt-0x(blue())>>'
-    magenta: '<<fmt-0x(magenta())>>'
-    cyan:    '<<fmt-0x(cyan())>>'
+    green:   '<<fmt-0x(color("green"))>>'
+    yellow:  '<<fmt-0x(color("yellow"))>>'
+    blue:    '<<fmt-0x(color("blue"))>>'
+    magenta: '<<fmt-0x(color("magenta"))>>'
+    cyan:    '<<fmt-0x(color("cyan"))>>'
     white:   '0xDCDCCC'
 
   # Bright colors
   bright:
     black:   '0x1c1c1c'
-    red:     '<<fmt-0x(red())>>'
-    green:   '<<fmt-0x(green())>>'
-    yellow:  '<<fmt-0x(yellow())>>'
-    blue:    '<<fmt-0x(blue())>>'
-    magenta: '<<fmt-0x(magenta())>>'
-    cyan:    '<<fmt-0x(cyan())>>'
+    red:     '<<fmt-0x(color("red"))>>'
+    green:   '<<fmt-0x(color("green"))>>'
+    yellow:  '<<fmt-0x(color("yellow"))>>'
+    blue:    '<<fmt-0x(color("blue"))>>'
+    magenta: '<<fmt-0x(color("magenta"))>>'
+    cyan:    '<<fmt-0x(color("cyan"))>>'
     white:   '0xDCDCCC'
 
   cursor:
     text:   '0x000000'
-    cursor: '<<fmt-0x(fg())>>'
+    cursor: '<<fmt-0x(color("fg"))>>'
 
 background_opacity: 1.0
 

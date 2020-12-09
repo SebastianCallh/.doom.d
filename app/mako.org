@@ -3,7 +3,7 @@
 :header-args:  :tangle ~/.config/mako/config :noweb yes :exports code :mkdirp yes
 :end:
 
-Message daemon for Wayland. Test by running
+Message daemon for Wayland. Docs can be found [[https://www.mankier.com/5/mako][here]]. Test by running
 
 #+begin_src sh :tangle no
 notify-send test
@@ -16,14 +16,15 @@ markup=1
 actions=1
 anchor=top-right
 group-by=urgency,app-name,app-icon
+default-timeout=5000
 
 # Format
-font=<<code-font()>> 10
-border-color=<<dark-blue()>>
+font=<<font("code")>> 10
+border-color=<<color("dark-blue")>>
 border-size=2
-background-color=<<bg()>>
-text-color=<<fg()>>
-format=<b>%s</b> <span color="<<fg()>>">(%a)</span>\n%b
+background-color=<<color("bg")>>
+text-color=<<color("fg")>>
+format=<b>%s</b> <span color="<<color("fg")>>">(%a)</span>\n%b
 # icons
 icon-path=/usr/share/icons/Papirus
 # Hidden format
@@ -34,7 +35,7 @@ format=Hidden: %h [%t]
 [urgency=low actionable]
 [urgency=normal actionable]
 [urgency=high]
-border-color=<<red()>>
+border-color=<<color("red")>>
 [urgency=high actionable]
-border-color=<<red()>>
+border-color=<<color("red")>>
 #+end_src

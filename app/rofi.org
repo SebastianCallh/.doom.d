@@ -7,38 +7,18 @@ Application launcher. While not on Wayland it is battle tested and highly custom
 
 #+begin_src conf :tangle ~/.config/rofi/config
 rofi.color-enabled: true
-
-# ! Window:           'background',  'border', 'separator'
-# rofi.color-window: argb:8832302F,  #FFFFC8, argb:ffffffff
-
-# !   State:              'bg',       'fg',   'altbg',        'hlbg',         hlfg
-# rofi.color-normal: argb:00252936, #FFFFC8, argb:00252936, argb:009575cd, #83A598
-# rofi.color-active: argb:00252936, #FFFFC8, argb:00252936, argb:009575cd, #FFFFC8
-# rofi.color-urgent: argb:00252936, #83A598, argb:00252936, argb:00252936, #FB4933
-
-# rofi.width: 100
-# rofi.padding: 10
-# rofi.line-margin: 15
-# rofi.lines: 3
-# rofi.separator-style: none
-# rofi.columns: 1
-rofi.font: <<code-font()>> Bold 12
-# rofi.bw: 0
-# rofi.eh: 2
-# rofi.hide-scrollbar: true
-# rofi.auto-select: true
-# !rofi.display-drun:⚌
+rofi.font: <<font("code")>> Bold 12
 theme: sidebar
 #+end_src
 
 #+begin_src css :tangle ~/.config/rofi/sidebar.rasi
  ,* {
-    text-color:  <<fg()>>;
-    background-color: <<bg()>>;
+    text-color:  <<color("fg")>>;
+    background-color: <<color("bg")>>;
     dark: #3d352a;
     // Black
-    black:       <<black()>>;
-    lightblack:  <<bg()>>;
+    black:       <<color("black")>>;
+    lightblack:  <<color("bg")>>;
     //
     // Red
     red:         #cd5c5c;
@@ -53,8 +33,8 @@ theme: sidebar
     lightyellow:     #ffa75d;
     //
     // Blue
-    blue:      <<dark-blue()>>;
-    lightblue:     <<blue()>>;
+    blue:      <<color("dark-blue")>>;
+    lightblue:     <<color("blue")>>;
     //
     // Magenta
     magenta:      #deb887;
@@ -66,7 +46,7 @@ theme: sidebar
     //
     // White
     white:      #bbaa99;
-    lightwhite:     <<fg()>>;
+    lightwhite:     <<color("fg")>>;
     //
     // Bold, Italic, Underline
     highlight:     bold #ffffff;
@@ -76,7 +56,8 @@ theme: sidebar
     width: 10em;
     location: west;
     anchor:   west;
-    border:  0px 2px 0px 0px;
+    border:  0px 1px 0px 0px;
+    border-color: @black;
     text-color: @lightwhite;
 }
 

@@ -7,22 +7,22 @@
 This config file is intended to be used with [[https://github.com/hlissner/doom-emacs][Doom emacs]]. Since Doom is very batteries-included, this file mostly contains personal touches.
 Using the [[file:init.el::literate][literate module]] this file is tangled on save and used instead of a ~config.el~ file.
 
-* Personal
-#+begin_src elisp
+** Personal
+#+begin_src emacs-lisp
 (setq auth-sources '("~/.authinfo"))
 (setq user-full-name "Sebastian Callh"
       user-mail-address "sebastian.callh@gmail.com")
 #+end_src
 
-* Localisation
-#+begin_src elisp
+** Localisation
+#+begin_src emacs-lisp
 (use-package! flyspell
   :init (setq ispell-dictionary "en_GB"))
 (setq system-time-locale "C")
 #+end_src
 
 * Custom keybindings
-#+begin_src elisp
+#+begin_src emacs-lisp
 (defun kill-current-buffer ()
   (interactive)
   (kill-buffer (current-buffer)))
@@ -36,95 +36,56 @@ Using the [[file:init.el::literate][literate module]] this file is tangled on sa
 
 * Aesthetics
 ** Dashboard
-#+begin_src elisp
+#+begin_src emacs-lisp
 (setq fancy-splash-image "~/.doom.d/images/lambda250.png")
 #+end_src
 
 ** Colour scheme
 The aesthetic setup is done by specifying a /colour scheme/ which will be used within Emacs, but also propagated to external programs through tangling in  [[*Applications][Applications]].
-#+begin_src elisp
-(setq sc/colour-scheme 'miramare)
 
-(when (eq sc/colour-scheme 'miramare)
-  (setq doom-theme 'doom-miramare)
-  (setq sc/foreground "#e6d6ac")
-  (setq sc/background "#2a2426")
-  (setq sc/black      "#1c1c1c")
-  (setq sc/grey       "#5b5b5b")
-  (setq sc/red        "#e68183")
-  (setq sc/magenta    "#e68183")
-  (setq sc/violet     "#d3a0bc")
-  (setq sc/orange     "#e39b7b")
-  (setq sc/yellow     "#d9bb80")
-  (setq sc/teal       "#87af87")
-  (setq sc/green      "#87af87")
-  (setq sc/dark-green "#678f67")
-  (setq sc/blue       "#89beba")
-  (setq sc/dark-blue  "#458588")
-  (setq sc/cyan       "#87c095")
-  (setq sc/dark-cyan  "#67a075"))
-
-(when (eq sc/colour-scheme 'zenburn)
-  (setq doom-theme 'doom-zenburn)
-  (setq sc/foreground  "#F0DFAF")
-  (setq sc/background  "#282828")
-  (setq sc/black       "#1c1c1c")
-  (setq sc/grey        "#5b5b5b")
-  (setq sc/red         "#AC7373")
-  (setq sc/magenta     "#DC8CC3")
-  (setq sc/dark-magenta"#DC8CC3")
-  (setq sc/violet      "#d3a0bc")
-  (setq sc/orange      "#e39b7b")
-  (setq sc/yellow      "#F0DFAF")
-  (setq sc/dark-yell   "#E0CF9F")
-  (setq sc/teal        "#87af87")
-  (setq sc/green       "#5F7F5F")
-  (setq sc/dark-green  "#6F8F6F")
-  (setq sc/blue        "#5C888B")
-  (setq sc/dark-blue   "#5C888B")
-  (setq sc/cyan        "#93E0E3")
-  (setq sc/dark-cyan   "#93E0E3"))
+#+begin_src emacs-lisp
+(setq doom-theme 'doom-miramare)
 #+end_src
-
-#+RESULTS:
 
 ** Font
 Use ~mixed-pitch~ to have separate fonts in code blocks and in prose. The Vollkorn typeface is available at [[http://vollkorn-typeface.com/][their website]].
 Haskling does not support fancy UTF-8 characters which I like to use in Julia, so we have to use Fira Code. But I can't get Fira Code ligatures to work, so we have to do without.
 
-#+begin_src emacs-lisp
-(setq sc/code-font "Fira Code")
-(setq sc/prose-font "Vollkorn")
-#+end_src
-
-#+begin_src elisp
+#+begin_src emacs-lisp :noweb yes
 (use-package! mixed-pitch
   :hook
   (org-mode . mixed-pitch-mode))
 
-(setq doom-font (font-spec :family sc/code-font :size 16)
-      doom-variable-pitch-font (font-spec :family sc/prose-font)
-      doom-unicode-font (font-spec :family sc/code-font)
-      doom-big-font (font-spec :family sc/code-font :size 28))
+(setq doom-font (font-spec :family "<<font("code")>>" :size 16)
+      doom-variable-pitch-font (font-spec :family "<<font("prose")>>")
+      doom-unicode-font (font-spec :family "<<font("code")>>")
+      doom-big-font (font-spec :family "<<font("code")>>" :size 28))
 #+end_src
 
 ** Modeline
 Currently running with Doom modeline.
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package! doom-modeline
   :config
   (setq doom-modeline-buffer-file-name-style 'buffer-name)
   (setq doom-modeline-buffer-encoding nil))
 #+end_src
 
+** Scroll on jump
+#+begin_src emacs-lisp
+(use-package! scroll-on-jump
+  :config
+  (setq scroll-on-jump-duration 0.6))
+#+end_src
+
 * Performance
   Also disable some packages in [[file:packages.el::;: Pemoved for performance reason][packages.el]].
-#+begin_src elisp
+#+begin_src emacs
 (setq display-line-numbers-type 'nil)
 #+end_src
 
 * Org
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package! org
   :init (setq org-directory "~/Dropbox/org")
   :config
@@ -134,63 +95,65 @@ Currently running with Doom modeline.
   (setq org-superstar-headline-bullets-list '("❍"))
 
   (custom-set-faces
-
-   '(org-level-1 ((t (:inherit outline-1 :height 1.2))))
-   '(org-level-2 ((t (:inherit outline-2 :height 1.15))))
-   '(org-level-3 ((t (:inherit outline-3 :height 1.1))))
-   '(org-level-4 ((t (:inherit outline-4 :height 1.0))))
+   '(org-level-1 ((t (:inherit outline-1 :height 1.1))))
+   '(org-level-2 ((t (:inherit outline-2 :height 1.08))))
+   '(org-level-3 ((t (:inherit outline-3 :height 1.05))))
+   '(org-level-4 ((t (:inherit outline-4 :height 1.02))))
    '(org-level-5 ((t (:inherit outline-5 :height 1.0))))))
-
-  ;; (cl-defmethod jupyter-org--insert-result (_req context result)
-  ;;   (let ((str
-  ;;          (org-element-interpret-data
-  ;;           (jupyter-org--wrap-result-maybe
-  ;;            context (if (jupyter-org--stream-result-p result)
-  ;;                        (thread-last result
-  ;;                          jupyter-org-strip-last-newline
-  ;;                          jupyter-org-scalar)
-  ;;                      result)))))
-  ;;     (if (< (length str) 10000)
-  ;;         (insert str)
-  ;;       (insert (format ": Output truncated, original length was %d" (length str)))))
-  ;;   (when (/= (point) (line-beginning-position))
-  ;;     ;; Org objects such as file links do not have a newline added when
-  ;;     ;; converting to their string representation by
-  ;;     ;; `org-element-interpret-data' so insert one in these cases.
-  ;;     (insert "\n"))))
 #+end_src
 
 ** Org Roam
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package! org-roam
   :hook (after-init . org-roam-mode)
   :custom (org-roam-directory (concat org-directory "/roam")))
 #+end_src
 
 ** Org Babel
-#+begin_src elisp
+#+begin_src emacs-lisp
 (require 'org-tempo)
+(setq org-confirm-babel-evaluate nil)
 
 (add-to-list 'org-structure-template-alist '("py" . "src python"))
 (add-to-list 'org-structure-template-alist '("ipy" . "src jupyter-python"))
-(add-to-list 'org-structure-template-alist '("j" . "src julia"))
-(add-to-list 'org-structure-template-alist '("ij" . "src jupyter-julia"))
+(add-to-list 'org-structure-template-alist '("jl" . "src julia"))
+(add-to-list 'org-structure-template-alist '("ijl" . "src jupyter-julia"))
 (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
 (add-to-list 'org-structure-template-alist '("sh". "src sh"))
 #+end_src
 
 * Packages
+Most packages come bundled with Doom, but we make a few tweaks to the [[./packages.el][packages.el]] file.
+
+#+begin_src emacs-lisp :tangle ~/.doom.d/packages.el
+
+;; Added packages
+(package! mixed-pitch)
+(package! company-posframe)
+(package! scroll-on-jump :recipe
+  (:host gitlab
+   :repo "ideasman42/emacs-scroll-on-jump"))
+
+(package! with-venv)
+
+;; Currently requires manual install
+(package! lsp-julia :recipe (:host github :repo "non-jedi/lsp-julia"))
+
+                                        ;: Disabled
+(package! solaire-mode :disable t)
+#+end_src
+
 ** Dired
 Regular Dired mode shows so much stuff and seeing my name on folders twice really clutters the screen. Hence we turn off detail mode by default.
 
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package! dired
   :config
   (add-hook 'dired-mode-hook 'dired-hide-details-mode))
 #+end_src
 
 ** Avy
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package! avy
   :config
   (setq avy-all-windows t)
@@ -199,7 +162,7 @@ Regular Dired mode shows so much stuff and seeing my name on folders twice reall
 
 ** Tramp
 We want to avoid [[https://www.reddit.com/r/emacs/comments/320cvb/projectile_slows_tramp_mode_to_a_crawl_is_there_a/][Projectile slowing down Tramp]], and we use some of the [[https://www.gnu.org/software/emacs/manual/html_node/tramp/Frequently-Asked-Questions.html][tricks in the Emacs manual]].
-#+begin_src elisp
+#+begin_src emacs-lisp
 (after! tramp
   :config
   (setq recentf-auto-cleanup 'never)
@@ -214,28 +177,36 @@ We want to avoid [[https://www.reddit.com/r/emacs/comments/320cvb/projectile_slo
 
 ** Projectile
 Solves the [[https://github.com/bbatsov/projectile/issues/657][issue]] where ~Projectile~ lags over ~Tramp~.
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package! projectile
   :config
   (setq projectile-mode-line "Projectile"))
 #+end_src
 
-**  Company-posframe
+** Company
+#+begin_src emacs-lisp
+(use-package! company
+  :config
+  (setq company-idle-delay .1))
+#+end_src
+
+
+*** Company-posframe
 [[*Font][Mixed pitch]] allows different fonts in org mode for prose and code, however, this doesn't interact super great with company. [[https://github.com/tumashu/company-posframe/][Company-posframe]] solves this. [[https://github.com/sebastiencs/company-box][Company-box]] looks quite a bit nicer with icons and docstring-popup, but it crashes when used in ~emacs-jupyter~, and is also quite laggy. Added in [[file:packages.el::package! company-posframe][package.el]].
 
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package! company-posframe
   :hook (company-mode . company-posframe-mode))
 #+end_src
 
 **  Undo-fu
 I think there might be an issue with ~undo-fu-session~ since it sometimes outputs =Undo-Fu-Session discarding undo data: file length mismatch=. I am not sure if this affects performance but I don't really care if undo is bounded by a session, so it is disabled here.
-#+begin_src elisp
+#+begin_src emacs-lisp
 (remove-hook 'undo-fu-mode-hook #'global-undo-fu-session-mode)
 #+end_src
 
 ** Deft
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package! deft
   :config
   (setq deft-extensions '("txt" "tex" "org"))
@@ -267,7 +238,7 @@ Config can be in the Julia module [[https://github.com/hlissner/doom-emacs/blob/
 
 *** EIN
 For some reason undo is disabled by default, so we enable it.  We also enable inline images.
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package! ein
   :config
   (setq ein:worksheet-enable-undo t)
@@ -276,28 +247,26 @@ For some reason undo is disabled by default, so we enable it.  We also enable in
 
 * Applications
 Why limit ourselves to only configuring Emacs in Emacs when we can configure /anything/? Using  ~tangle~ we can emit configuration files to anything we want.
-** Applications
-#+include: app/exports.org
-#+include: app/sway.org
-#+include: app/waybar.org
-#+include: app/mako.org
-#+include: app/alacritty.org
-#+include: app/rofi.org
 
-To reduce clutter the application specific configurations reside in their own config files. Additionally, we expose variables from Emacs to other config files by listing them in the [[./app/exports.org][exports]] file.
+** Applications
+#+include: ./app/variables.org
+# #+include: ./app/sway.org
+# #+include: ./app/waybar.org
+# #+include: ./app/mako.org
+# #+include: ./app/alacritty.org
+# #+include: ./app/rofi.org
+
+To reduce clutter the application specific configurations reside in their own config files. Additionally, we expose variables from Emacs to other config files by listing them in the [[./app/variables.org][variables]] file.
 - [[./app/sway.org][Sway]]
 - [[./app/waybar.org][Waybar]]
 - [[./app/mako.org][Mako]]
 - [[./app/alacritty.org][Alacritty]]
 - [[./app/rofi.org][Rofi]]
 
-** Exports
-To get a unified appearance of  our workstation we export the colours from Emacs to our config files by using [[https://orgmode.org/manual/Noweb-Reference-Syntax.html#Noweb-Reference-Syntax][noweb syntax]].
-
 ** Email
 Set up based on [[http://pragmaticemacs.com/emacs/migrating-from-offlineimap-to-mbsync-for-mu4e/][this blog post]].
 
-#+begin_src elisp
+#+begin_src emacs-lisp
 ;; (use-package! mu4e
 ;;   :config
 ;;   (setq mu4e-maildir (expand-file-name "~/mail"))

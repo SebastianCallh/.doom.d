@@ -9,13 +9,19 @@ Sway is a cool window manager for Wayland. Good info on their [[https://github.c
 #+begin_src conf
 # Logo key. Use Mod1 for Alt.
 set $mod Mod4
+
 # Home row direction keys, like vim
 set $left j
 set $down k
 set $up i
 set $right l
 set $term alacritty
-set $bg <<bg()>> solid_color
+
+# colors
+set $bg <<color("bg")>>
+set $fg <<color("fg")>>
+set $red <<color("red")>>
+set $dark_blue <<color("dark-blue")>>
 #+end_src
 
 ** Application launcher
@@ -29,12 +35,13 @@ bindsym $mod+d exec $menu
 ** Lock screen
 ~swaylock~ has to be provided colours without leading ~#~.
 #+begin_src conf
-set $indicator_color <<fmt-nums(fg())>>
-set $clear_color <<fmt-nums(red())>>
-set $wrong_color <<fmt-nums(red())>>
-set $ver_color <<fmt-nums(dark-blue())>>
-set $keypress_color <<fmt-nums(dark-green())>>
-set $lock 'swaylock -f -c <<fmt-nums(bg())>> --inside-color $indicator_color --ring-color $indicator_color --ring-clear-color $clear_color --inside-clear-color $clear_color --inside-wrong-color $wrong_color --ring-wrong-color $wrong_color --inside-ver-color $ver_color --ring-ver-color $ver_color --key-hl-color $keypress_color'
+set $indicator_color <<fmt-nums(color("fg"))>>
+set $clear_color <<fmt-nums(color("red"))>>
+set $wrong_color <<fmt-nums(color("red"))>>
+set $ver_color <<fmt-nums(color("dark-blue"))>>
+set $keypress_color <<fmt-nums(color("dark-green"))>>
+set $desktop_color <<fmt-nums(color("bg"))>>
+set $lock 'swaylock -f -c $desktop_color --inside-color $indicator_color --ring-color $indicator_color --ring-clear-color $clear_color --inside-clear-color $clear_color --inside-wrong-color $wrong_color --ring-wrong-color $wrong_color --inside-ver-color $ver_color --ring-ver-color $ver_color --key-hl-color $keypress_color'
 bindsym $mod+c exec $lock
 #+end_src
 
@@ -46,12 +53,12 @@ swaymsg -t get_outputs
 
 #+begin_src conf
 output eDP-1 {
-       background $bg
+       background $bg solid_color
        scale 2
 }
 
 output DP-2 {
-       background $bg
+       background $bg solid_color
        resolution 2560x1440
 }
 
@@ -217,9 +224,9 @@ bar {
 ** Application borders
 #+begin_src conf
 default_border none
-client.focused <<bg()>> <<fg()>> <<bg()>> #000000 #000000
-client.urgent <<red()>> <<red()>> <<fg()>> #000000 #000000
-client.unfocused <<bg()>> <<bg()>> <<fg()>> #000000 #000000
+client.focused $bg $fg $bg #000000 #000000
+client.urgent $red $red $fg #000000 #000000
+client.unfocused $bg $bg $fg #000000 #000000
 
 include /etc/sway/config.d/*
 #+end_src

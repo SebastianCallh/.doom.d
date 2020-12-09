@@ -243,26 +243,19 @@ I think there might be an issue with ~undo-fu-session~ since it sometimes output
   (setq deft-recursive t))
 #+end_src
 
-** Conda
-Seems like this does not interact with ~M-x term~ so it's not very useful.
-#+begin_src elisp
-(use-package! conda
-  :config
-  (lambda() conda-env-initialize-interactive-shell))
-#+end_src
 
 * Programming
 ** Data science
 *** Ess
 Unfortunately [[https://github.com/gjkerns/ob-julia/blob/master/ob-julia-doc.org][needed]] for ~ob-julia~.
-#+begin_src elisp
+#+begin_src emacs-lisp
 (after! ess
   (setq inferior-julia-program "/usr/local/bin/julia"))
 #+end_src
 
 *** Julia
 Config can be in the Julia module [[https://github.com/hlissner/doom-emacs/blob/develop/modules/lang/julia/README.org][README]]. ~julia-lsp~ installed in [[file:packages.el::package! lsp-julia :recipe (:host github :repo "non-jedi/lsp-julia")][package.el]]. Needs ~lsp-enable-folding~ or it breaks for some reason.
-#+begin_src elisp
+#+begin_src emacs-lisp
 (setq lsp-enable-folding t)
 #+end_src
 

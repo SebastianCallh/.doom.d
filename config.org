@@ -266,6 +266,12 @@ Config can be in the Julia module [[https://github.com/hlissner/doom-emacs/blob/
 (setq lsp-enable-folding t)
 #+end_src
 
+*** Python
+#+begin_src emacs-lisp
+(defun dap-python--pyenv-executable-find (command)
+  (with-venv (executable-find "python")))
+#+end_src
+
 *** EIN
 For some reason undo is disabled by default, so we enable it.  We also enable inline images.
 #+begin_src elisp

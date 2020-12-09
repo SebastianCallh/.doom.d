@@ -52,6 +52,7 @@
 (package! mixed-pitch)
 (package! restclient)
 (package! company-posframe)
+(package! with-venv)
 
 
 ;: Disabled

@@ -1,0 +1,82 @@
+* Exports
+:properties:
+:header-args: :exports code :results value :noweb yes :tangle no
+:end:
+
+We emit certain configurations from Emacs to other applications using [[https://orgmode.org/manual/Noweb-Reference-Syntax.html#Noweb-Reference-Syntax][noweb syntax]].
+
+** Fonts
+We want a consistent use of fonts for terminals, application managers etc.
+
+#+name: font
+#+begin_src elisp :var font="" :tangle no
+(setq fonts
+      '(("code"  . "Fira Code")
+        ("prose" . "Vollkorn")))
+
+(cdr (assoc font fonts))
+#+end_src
+
+** Colors
+To get a unified appearance of  our workstation we export the colours we use.
+
+#+name: color
+#+begin_src elisp :var color="" :tangle no
+(setq colors
+      '(("fg"         . "#e6d6ac")
+        ("bg"         . "#2a2426")
+        ("black"      . "#1c1c1c")
+        ("grey"       . "#5b5b5b")
+        ("red"        . "#e68183")
+        ("magenta"    . "#e68183")
+        ("violet"     . "#d3a0bc")
+        ("orange"     . "#e39b7b")
+        ("yellow"     . "#d9bb80")
+        ("teal"       . "#87af87")
+        ("green"      . "#87af87")
+        ("dark-green" . "#678f67")
+        ("blue"       . "#89beba")
+        ("dark-blue"  . "#458588")
+        ("cyan"       . "#87c095")
+        ("dark-cyan"  . "#67a075")
+        (""           . "#000000")))
+
+(cdr (assoc color colors))
+#+end_src
+
+#+begin_src elisp :var c="" :tangle no
+
+;; (when (eq sc/colour-scheme 'zenburn)
+;;   (setq doom-theme 'doom-zenburn)
+;;   (setq sc/foreground  "#F0DFAF")
+;;   (setq sc/background  "#282828")
+;;   (setq sc/black       "#1c1c1c")
+;;   (setq sc/grey        "#5b5b5b")
+;;   (setq sc/red         "#AC7373")
+;;   (setq sc/magenta     "#DC8CC3")
+;;   (setq sc/dark-magenta"#DC8CC3")
+;;   (setq sc/violet      "#d3a0bc")
+;;   (setq sc/orange      "#e39b7b")
+;;   (setq sc/yellow      "#F0DFAF")
+;;   (setq sc/dark-yell   "#E0CF9F")
+;;   (setq sc/teal        "#87af87")
+;;   (setq sc/green       "#5F7F5F")
+;;   (setq sc/dark-green  "#6F8F6F")
+;;   (setq sc/blue        "#5C888B")
+;;   (setq sc/dark-blue   "#5C888B")
+;;   (setq sc/cyan        "#93E0E3")
+;;   (setq sc/dark-cyan   "#93E0E3"))
+#+end_src
+
+** Utility functions
+We use some snippets to parse colors from ~#000000~ to different formats.
+
+#+name: fmt-0x
+#+begin_src elisp :var x="" :tangle no
+(replace-regexp-in-string "#" "0x" x)
+#+end_src
+
+#+name: fmt-nums
+#+begin_src elisp :var x="" :tangle no
+(replace-regexp-in-string "#" "" x)
+#+end_src

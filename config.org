@@ -47,6 +47,7 @@ The aesthetic setup is done by specifying a /colour scheme/ which will be used w
 (setq doom-theme 'doom-miramare)
 #+end_src
 
+
 ** Font
 Use ~mixed-pitch~ to have separate fonts in code blocks and in prose. The Vollkorn typeface is available at [[http://vollkorn-typeface.com/][their website]].
 Haskling does not support fancy UTF-8 characters which I like to use in Julia, so we have to use Fira Code. But I can't get Fira Code ligatures to work, so we have to do without.
@@ -78,6 +79,7 @@ Currently running with Doom modeline.
   (setq scroll-on-jump-duration 0.6))
 #+end_src
 
+
 * Performance
   Also disable some packages in [[file:packages.el::;: Pemoved for performance reason][packages.el]].
 #+begin_src emacs
@@ -102,14 +104,14 @@ Currently running with Doom modeline.
    '(org-level-5 ((t (:inherit outline-5 :height 1.0))))))
 #+end_src
 
-** Org Roam
+** Roam
 #+begin_src emacs-lisp
 (use-package! org-roam
   :hook (after-init . org-roam-mode)
   :custom (org-roam-directory (concat org-directory "/roam")))
 #+end_src
 
-** Org Babel
+** Babel
 #+begin_src emacs-lisp
 (require 'org-tempo)
 (setq org-confirm-babel-evaluate nil)
@@ -120,6 +122,20 @@ Currently running with Doom modeline.
 (add-to-list 'org-structure-template-alist '("ijl" . "src jupyter-julia"))
 (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
 (add-to-list 'org-structure-template-alist '("sh". "src sh"))
+
+;; (after! org-src
+;;   (org-babel-do-load-languages
+;;    'org-babel-load-languages
+;;    '((emacs-lisp . t)
+;;      (julia . t)
+;;      (python . t)
+;;      (jupyter . t))))
+#+end_src
+
+** Org elegant agenda
+#+begin_src emacs-lisp
+(use-package! elegant-agenda-mode
+  :hook org-agenda-mode-hook)
 #+end_src
 
 * Packages
@@ -130,11 +146,10 @@ Most packages come bundled with Doom, but we make a few tweaks to the [[./packag
 ;; Added packages
 (package! mixed-pitch)
 (package! company-posframe)
-(package! scroll-on-jump :recipe
-  (:host gitlab
-   :repo "ideasman42/emacs-scroll-on-jump"))
-
+(package! scroll-on-jump)
 (package! with-venv)
+(package! polymode)
+(package! elegant-agenda-mode)
 
 ;; Currently requires manual install
 (package! lsp-julia :recipe (:host github :repo "non-jedi/lsp-julia"))
@@ -187,7 +202,7 @@ Solves the [[https://github.com/bbatsov/projectile/issues/657][issue]] where ~Pr
 #+begin_src emacs-lisp
 (use-package! company
   :config
-  (setq company-idle-delay .1))
+  (setq company-idle-delay .3))
 #+end_src
 
 
@@ -195,8 +210,8 @@ Solves the [[https://github.com/bbatsov/projectile/issues/657][issue]] where ~Pr
 [[*Font][Mixed pitch]] allows different fonts in org mode for prose and code, however, this doesn't interact super great with company. [[https://github.com/tumashu/company-posframe/][Company-posframe]] solves this. [[https://github.com/sebastiencs/company-box][Company-box]] looks quite a bit nicer with icons and docstring-popup, but it crashes when used in ~emacs-jupyter~, and is also quite laggy. Added in [[file:packages.el::package! company-posframe][package.el]].
 
 #+begin_src emacs-lisp
-(use-package! company-posframe
-  :hook (company-mode . company-posframe-mode))
+;; (use-package! company-posframe
+;;   :hook (company-mode . company-posframe-mode))
 #+end_src
 
 **  Undo-fu
@@ -213,7 +228,6 @@ I think there might be an issue with ~undo-fu-session~ since it sometimes output
   (setq deft-directory "~/Dropbox/org")
   (setq deft-recursive t))
 #+end_src
-
 
 * Programming
 ** Data science
@@ -242,7 +256,9 @@ For some reason undo is disabled by default, so we enable it.  We also enable in
 (use-package! ein
   :config
   (setq ein:worksheet-enable-undo t)
-  (setq ein:output-area-inlined-images t))
+  (setq ein:output-area-inlined-images t)
+  (setq ein:polymode t)
+  (setq ein:completion-backend 'ein:use-company-backend))
 #+end_src
 
 * Applications

@@ -163,6 +163,12 @@ bindsym $mod+Shift+9 move container to workspace 9
 bindsym $mod+Shift+0 move container to workspace 10
 #+end_src
 
+We want the workspaces 2 and 3 to default to the external monitor.
+#+begin_src conf
+workspace 2 DP-2
+workspace 3 DP-2
+#+end_src
+
 ** Layout stuff
 #+begin_src conf
 # You can "split" the current object of your focus with

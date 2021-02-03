@@ -1,7 +1,7 @@
 #+TITLE: Doom configuration
 #+AUTHOR: Sebastian Callh
 #+EMAIL: sebastian.callh@gmail.com
-#+PROPERTY: header-args:elisp :tangle yes :exports code :mkdirp yes
+#+PROPERTY: header-args:emacs-lisp :tangle yes :exports code :mkdirp yes
 
 * Personal Doom Configuration
 This config file is intended to be used with [[https://github.com/hlissner/doom-emacs][Doom emacs]]. Since Doom is very batteries-included, this file mostly contains personal touches.
@@ -72,6 +72,7 @@ Currently running with Doom modeline.
   (setq doom-modeline-buffer-encoding nil))
 #+end_src
 
+
 ** Scroll on jump
 #+begin_src emacs-lisp
 (use-package! scroll-on-jump
@@ -82,7 +83,7 @@ Currently running with Doom modeline.
 
 * Performance
   Also disable some packages in [[file:packages.el::;: Pemoved for performance reason][packages.el]].
-#+begin_src emacs
+#+begin_src emacs-lisp
 (setq display-line-numbers-type 'nil)
 #+end_src
 
@@ -104,12 +105,15 @@ Currently running with Doom modeline.
    '(org-level-5 ((t (:inherit outline-5 :height 1.0))))))
 #+end_src
 
+
 ** Roam
 #+begin_src emacs-lisp
 (use-package! org-roam
+  :after (org)
   :hook (after-init . org-roam-mode)
   :custom (org-roam-directory (concat org-directory "/roam")))
 #+end_src
+
 
 ** Babel
 #+begin_src emacs-lisp

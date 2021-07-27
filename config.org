@@ -35,12 +35,11 @@ Using the [[file:init.el::literate][literate module]] this file is tangled on sa
 #+end_src
 
 * Aesthetics
-
 ** Colour scheme
 The aesthetic setup is done by specifying a /colour scheme/ which will be used within Emacs, but also propagated to external programs through tangling in  [[*Applications][Applications]].
 
 #+begin_src emacs-lisp
-(setq doom-theme 'doom-dark+)
+(setq doom-theme 'doom-nord)
 #+end_src
 
 #+begin_src emacs-lisp :noweb yes

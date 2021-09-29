@@ -40,7 +40,7 @@
        ophints           ; highlight the region an operation acts on
        (popup +defaults)   ; tame sudden yet inevitable temporary windows
 
-       ;; (ligatures +hasklig)       ; ligatures or substitute text with pretty symbols
+       (ligatures +firacode)       ; ligatures or substitute text with pretty symbols
        ;;tabs              ; a tab bar for Emacs
        ;;treemacs          ; a project drawer, like neotree but cooler
        ;;unicode           ; extended unicode support for various languages
@@ -53,7 +53,7 @@
        :editor
        ;;(evil +everywhere); come to the dark side, we have cookies
        file-templates    ; auto-snippets for empty files
-       ;;fold              ; (nigh) universal code folding
+       fold              ; (nigh) universal code folding
        (format +onsave)  ; automated prettiness
        ;;god               ; run Emacs commands without modifier keys
        ;;lispy             ; vim for lisp, for people who don't like vim
@@ -84,7 +84,7 @@
 
        :tools
        ;;ansible
-       ;; (debugger +lsp)          ; FIXME stepping through code, to help you add bugs
+       (debugger +lsp)          ; FIXME stepping through code, to help you add bugs
        ;;direnv
        (docker +lsp)
        ;;editorconfig      ; let someone else argue about tabs vs spaces
@@ -165,7 +165,7 @@
        yaml              ; JSON, but readable
 
        :email
-       (mu4e +gmail)
+       ;; (mu4e +gmail)
        ;;notmuch
        ;;(wanderlust +gmail)
 

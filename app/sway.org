@@ -54,12 +54,12 @@ swaymsg -t get_outputs
 #+begin_src conf
 output eDP-1 {
        background $bg solid_color
-       scale 2
+       resolution 1920x1080
 }
 
-output DP-2 {
+output DP-3 {
        background $bg solid_color
-       resolution 2560x1440
+       resolution 1920x1080
 }
 
 #+end_src
@@ -71,7 +71,7 @@ swaymsg -t get_inputs
 #+end_src
 
 #+begin_src conf
-input "1739:30383:DELL08AF:00_06CB:76AF_Touchpad" {
+input 1739:31251:SYNA2393:00_06CB:7A13_Touchpad {
       dwt enabled
       tap disabled
       natural_scroll enabled
@@ -188,7 +188,6 @@ bindsym $mod+Shift+space floating toggle
 bindsym $mod+space focus mode_toggle
 # move focus to the parent container
 bindsym $mod+a focus parent
-
 #+end_src
 
 ** Scratchpad
@@ -235,4 +234,11 @@ client.urgent $red $red $fg #000000 #000000
 client.unfocused $bg $bg $fg #000000 #000000
 
 include /etc/sway/config.d/*
+#+end_src
+
+** Gaps
+#+begin_src conf
+gaps inner 6
+gaps outer 6
+smart_gaps on
 #+end_src

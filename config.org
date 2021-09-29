@@ -60,7 +60,7 @@ Currently running with Doom modeline.
 
 
 * Performance
-  Also disable some packages in [[file:packages.el::;: Pemoved for performance reason][packages.el]].
+Also disable some packages in [[file:packages.el::;: Pemoved for performance reason][packages.el]].
 #+begin_src emacs-lisp
 (setq display-line-numbers-type 'nil)
 #+end_src
@@ -127,18 +127,25 @@ Most packages come bundled with Doom, but we make a few tweaks to the [[./packag
 
 ;; Added packages
 (package! mixed-pitch)
-(package! company-posframe)
-(package! scroll-on-jump)
+;; (package! company-posframe)
+;; (package! scroll-on-jump)
 (package! with-venv)
-(package! polymode)
-(package! elegant-agenda-mode)
+;; (package! polymode)
+;; (package! telega) doesnt built
+;; (package! magit-section) ;; needed for magit until upstream is fixed
 
-;; Currently requires manual install
 (package! lsp-julia :recipe (:host github :repo "non-jedi/lsp-julia"))
-
-                                        ;: Disabled
-(package! solaire-mode :disable t)
+;; (package! nano-theme :recipe (:host github :repo "rougier/nano-theme"))
+;; (package! solaire-mode :disable t)
 #+end_src
+
+#+begin_src emacs-lisp
+;; (with-eval-after-load 'lsp-mode
+;; (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.data\\'")
+(setq lsp-enable-file-watchers nil)
+#+end_src
+
+#+RESULTS:
 
 ** Dired
 Regular Dired mode shows so much stuff and seeing my name on folders twice really clutters the screen. Hence we turn off detail mode by default.
@@ -196,7 +203,7 @@ Solves the [[https://github.com/bbatsov/projectile/issues/657][issue]] where ~Pr
 ;;   :hook (company-mode . company-posframe-mode))
 #+end_src
 
-**  Undo-fu
+** Undo-fu
 I think there might be an issue with ~undo-fu-session~ since it sometimes outputs =Undo-Fu-Session discarding undo data: file length mismatch=. I am not sure if this affects performance but I don't really care if undo is bounded by a session, so it is disabled here.
 #+begin_src emacs-lisp
 (remove-hook 'undo-fu-mode-hook #'global-undo-fu-session-mode)
@@ -218,6 +225,7 @@ Config can be in the Julia module [[https://github.com/hlissner/doom-emacs/blob/
 #+end_src
 
 *** Python
+Configure python debugger to use the python executable configured in current environment.
 #+begin_src emacs-lisp
 (defun dap-python--pyenv-executable-find (command)
   (with-venv (executable-find "python")))
@@ -233,3 +241,21 @@ For some reason undo is disabled by default, so we enable it.  We also enable in
   (setq ein:polymode t)
   (setq ein:completion-backend 'ein:use-company-backend))
 #+end_src
+
+* Applications
+Why limit ourselves to only configuring Emacs in Emacs when we can configure /anything/? Using ~tangle~ we can emit configuration files to anything we want.
+
+** Applications
+#+include: ./app/variables.org
+#+include: ./app/sway.org
+#+include: ./app/waybar.org
+# #+include: ./app/mako.org
+#+include: ./app/alacritty.org
+# #+include: ./app/rofi.org
+
+To reduce clutter the application specific configurations reside in their own config files. Additionally, we expose variables from Emacs to other config files by listing them in the [[./app/variables.org][variables]] file.
+- [[./app/sway.org][Sway]]
+- [[./app/waybar.org][Waybar]]
+- [[./app/mako.org][Mako]]
+- [[./app/alacritty.org][Alacritty]]
+- [[./app/rofi.org][Rofi]]
